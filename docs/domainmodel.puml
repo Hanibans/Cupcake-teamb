@@ -1,0 +1,9 @@
+@startuml
+!pragma layout smetana
+
+object User
+object Cupcakes
+
+User --> Cupcakes
+
+@enduml
