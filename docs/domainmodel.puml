@@ -3,7 +3,17 @@
 
 object User
 object Cupcakes
+object Admin
+object Order
+object Payment
+object ShoppingCart
 
-User --> Cupcakes
+
+
+User "1"--"1..*" Cupcakes
+Cupcakes --> ShoppingCart
+ShoppingCart --> Payment :must be to logged in
+Payment --> Order
+Admin --> Cupcakes
 
 @enduml
