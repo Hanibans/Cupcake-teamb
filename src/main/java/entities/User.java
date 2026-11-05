@@ -84,7 +84,10 @@ public class User {
         return orders;
     }
 
-    public void addOrders(Order orders) {
-        orders.add(Order);
+    public Order addOrders(Order order) {
+        List<Order> orderList = new ArrayList<>();
+        orderList.add(order);
+
+        return order;
     }
 }
