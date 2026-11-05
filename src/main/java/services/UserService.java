@@ -10,9 +10,9 @@ public class UserService {
     private ConnectionPool connectionPool;
     private UserMapper userMapper;
 
-    public UserService(ConnectionPool connectionPool, UserMapper userMapper) {
+    public UserService(ConnectionPool connectionPool) {
         this.connectionPool = connectionPool;
-        this.userMapper = new userMapper(connectionPool);
+        this.userMapper = new UserMapper(connectionPool);
     }
 
     public User createUser(String name, String email, String phoneNumber, String password) throws IllegalUserDataException {
