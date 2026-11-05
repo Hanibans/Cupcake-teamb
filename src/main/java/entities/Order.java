@@ -1,21 +1,21 @@
 package entities;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public class Order {
 
     private int orderID;
-    private LocalDate Date;
+    private LocalDateTime Date;
     private int Price;
     private String orderStatus;
 
-    public Order(int orderID, LocalDate date, int price, String orderStatus) {
+    public Order(int orderID, LocalDateTime date, int price, String orderStatus) {
         this.orderID = orderID;
         Date = date;
         Price = price;
         this.orderStatus = orderStatus;
     }
-
 
     public int getOrderID() {
         return orderID;
@@ -25,11 +25,11 @@ public class Order {
         this.orderID = orderID;
     }
 
-    public LocalDate getDate() {
+    public LocalDateTime getDate() {
         return Date;
     }
 
-    public void setDate(LocalDate date) {
+    public void setDate(LocalDateTime date) {
         Date = date;
     }
 
