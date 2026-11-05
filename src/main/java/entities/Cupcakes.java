@@ -2,23 +2,20 @@ package entities;
 
 public abstract class Cupcakes {
 
-    private int id;
+    private int cupcakeId;
     private String flavor;
     private int price;
 
-    public Cupcakes(int id, String flavor, int price) {
-        this.id = id;
+    public Cupcakes(int cupcakeId, String flavor, int price) {
+        this.cupcakeId = cupcakeId;
         this.flavor = flavor;
         this.price = price;
     }
 
-    public int getId() {
-        return id;
+    public int getCupcakeId() {
+        return cupcakeId;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
 
     public String getFlavor() {
         return flavor;
