@@ -8,12 +8,32 @@ public class User {
     private String name;
     private String email;
     private String password;
-    private int phoneNumber;
+    private String phoneNumber;
     private double accountBalance;
     private boolean isAdmin;
     private List<Order> orders;
 
-    public User(int userId, String name, String email, String password, int phoneNumber, double accountBalance, boolean isAdmin) {
+    public User(int userId, String name, String email, String phoneNumber, String password, double accountBalance) {
+        this.userId = userId;
+        this.name = name;
+        this.email = email;
+        this.phoneNumber = phoneNumber;
+        this.password = password;
+        this.accountBalance = accountBalance;
+    }
+
+    public User(int userId, String email, String password) {
+        this.email = email;
+        this.password = password;
+        this.userId = userId;
+    }
+    public User(String email, String phoneNumber, String password) {
+        this.email = email;
+        this.password = password;
+        this.userId = userId;
+    }
+
+    public User(int userId, String name, String email, String password, String phoneNumber, double accountBalance, boolean isAdmin) {
         this.userId = userId;
         this.name = name;
         this.email = email;
@@ -56,11 +76,11 @@ public class User {
         this.password = password;
     }
 
-    public int getPhoneNumber() {
+    public String getPhoneNumber() {
         return phoneNumber;
     }
 
-    public void setPhoneNumber(int phoneNumber) {
+    public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
 
