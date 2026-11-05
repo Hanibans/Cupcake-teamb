@@ -13,14 +13,6 @@ public class User {
     private boolean isAdmin;
     private List<Order> orders;
 
-    public User(int userId, String name, String email, String phoneNumber, String password, double accountBalance) {
-        this.userId = userId;
-        this.name = name;
-        this.email = email;
-        this.phoneNumber = phoneNumber;
-        this.password = password;
-        this.accountBalance = accountBalance;
-    }
 
     public User(int userId, String email, String password) {
         this.email = email;
@@ -29,20 +21,10 @@ public class User {
     }
     public User(String email, String phoneNumber, String password) {
         this.email = email;
+        this.phoneNumber = phoneNumber;
         this.password = password;
-        this.userId = userId;
     }
 
-    public User(int userId, String name, String email, String password, String phoneNumber, double accountBalance, boolean isAdmin) {
-        this.userId = userId;
-        this.name = name;
-        this.email = email;
-        this.password = password;
-        this.phoneNumber = phoneNumber;
-        this.accountBalance = accountBalance;
-        this.isAdmin = isAdmin;
-        this.orders = new ArrayList<>();
-    }
 
     public int getUserId() {
         return userId;

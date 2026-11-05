@@ -121,7 +121,6 @@ public class UserMapper {
         return false;
     }
 
-
     public void updateEmail(int userId, String newEmail)
             throws DatabaseException {
         String sql = "UPDATE users SET mail = ? WHERE user_id = ?";
