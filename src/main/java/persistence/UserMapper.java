@@ -116,8 +116,8 @@ public class UserMapper {
     }
 
 
-    public boolean userExists(String mail, String telefon) {
-        if (mail != null && telefon != null){}
+    public boolean userExists(String email, String phoneNumber) {
+        if (email != null && phoneNumber != null){}
         return false;
     }
 
