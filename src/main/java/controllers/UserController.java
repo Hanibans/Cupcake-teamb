@@ -22,6 +22,10 @@ public class UserController {
 
     public void setRoutes(JavalinConfig config) {
         config.routes.post("/createuser", ctx -> createUser(ctx));
+        config.routes.get("/createuser", ctx -> ctx.redirect("/register.html"));
+        config.routes.post("/login", ctx -> login(ctx));
+        config.routes.get("/login", ctx -> ctx.redirect("/login.html"));
+
     }
 
     private void createUser(Context ctx) {
@@ -33,12 +37,26 @@ public class UserController {
         try {
             User user = userService.createUser(name, email, phoneNumber, password);
             ctx.sessionAttribute("user", user);
-            ctx.redirect("");
+            ctx.redirect("/frontpage.html");
         } catch (IllegalUserDataException e) {
             ctx.status(404);
             ctx.result(e.getMessage());
         }
 
+    }
+
+    public void login(Context ctx) {
+        String email = ctx.formParam("email");
+        String password = ctx.formParam("password");
+
+        User user = userService.login(email, password);
+        if (user != null) {
+            ctx.sessionAttribute("user", user);
+            ctx.redirect("/frontpage.html");
+        } else {
+            ctx.status(400);
+            ctx.result("Forkert email eller adgangskode");
+        }
     }
 
 

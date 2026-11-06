@@ -30,6 +30,22 @@ public class UserService {
         }
     }
 
+    public User login(String email, String password) {
+        if (email == null || password == null) {
+            return null;
+        }
+        try {
+            User user = userMapper.getUserByMail(email);
+            if (user == null || !user.getPassword().equals(password)) {
+                return null;
+            }
+
+            return user;
+        } catch (DatabaseException e) {
+            return null;
+        }
+    }
+
     private void validateEmail(String email) throws IllegalUserDataException {
         if (email == null || !email.contains("@")) {
             throw new IllegalUserDataException("Indtast en gyldig email.");
