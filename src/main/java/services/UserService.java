@@ -30,19 +30,19 @@ public class UserService {
         }
     }
 
-    private void validateEmail(String email) throws IllegalUserDataException {
+    public void validateEmail(String email) throws IllegalUserDataException {
         if (email == null || !email.contains("@")) {
             throw new IllegalUserDataException("Indtast en gyldig email.");
         }
     }
 
-    private void validatePhoneNumber(String phoneNumber) throws IllegalUserDataException {
+    public void validatePhoneNumber(String phoneNumber) throws IllegalUserDataException {
         if (phoneNumber == null || phoneNumber.length() != 8 || !phoneNumber.matches("\\d{8}")) {
             throw new IllegalUserDataException("Telefonnummer skal bestå af præcis 8 cifre.");
         }
     }
 
-    private void validatePassword(String password) throws IllegalUserDataException {
+    public void validatePassword(String password) throws IllegalUserDataException {
         if (password == null || password.length() < 8 || password.length() > 15) {
             throw new IllegalUserDataException("Adgangskoden skal være mellem 8 og 15 tegn.");
         }
