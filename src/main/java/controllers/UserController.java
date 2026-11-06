@@ -1,6 +1,7 @@
 package controllers;
 
 import entities.User;
+import exceptions.DatabaseException;
 import exceptions.IllegalUserDataException;
 import persistence.*;
 import services.*;
@@ -61,7 +62,6 @@ public class UserController {
     public void login(Context ctx) {
         String email = ctx.formParam("email");
         String password = ctx.formParam("password");
-
         User user = userService.login(email, password);
         if (user != null) {
             ctx.sessionAttribute("user", user.getUserId());

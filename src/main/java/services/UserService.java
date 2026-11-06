@@ -36,11 +36,12 @@ public class UserService {
         }
         try {
             User user = userMapper.getUserByMail(email);
-            if (user == null || !user.getPassword().equals(password)) {
+            if (user != null && user.getPassword().equals(password)) {
+                return user;
+            }
+            else {
                 return null;
             }
-
-            return user;
         } catch (DatabaseException e) {
             return null;
         }
