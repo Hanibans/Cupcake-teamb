@@ -71,7 +71,7 @@ public class OrderController {
                 // Tøm indkøbskurven
                 ctx.sessionAttribute("orderlines", new ArrayList<Orderline>());
 
-                //ctx.redirect("/....html"); - send brugeren til ordrebekræftelsen eller bare en lille tekst?
+                //ctx.redirect("/....html"); - send brugeren til ordrebekræftelsen eller bare en lille tekst??
 
             } catch (DatabaseException e) {
                 ctx.status(500);
