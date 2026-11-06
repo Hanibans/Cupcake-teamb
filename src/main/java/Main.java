@@ -19,6 +19,7 @@ public class Main {
             config.fileRenderer(new JavalinThymeleaf(ThymeleafConfig.templateEngine()));
             UserController userController = new UserController(connectionPool);
 
+            userController.setRoutes(config);
 
 
         }).start(7070);

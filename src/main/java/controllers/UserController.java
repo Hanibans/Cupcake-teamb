@@ -21,6 +21,7 @@ public class UserController {
     }
 
     public void setRoutes(JavalinConfig config) {
+        config.routes.get("/", ctx -> renderFrontpage(ctx));
         config.routes.post("/createuser", ctx -> createUser(ctx));
         config.routes.get("/createuser", ctx -> ctx.redirect("/register.html"));
         config.routes.post("/login", ctx -> login(ctx));
@@ -57,6 +58,11 @@ public class UserController {
             ctx.status(400);
             ctx.result("Forkert email eller adgangskode");
         }
+    }
+
+
+    public void renderFrontpage(Context ctx){
+        ctx.render("/frontpage.html");
     }
 
 
