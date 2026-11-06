@@ -19,7 +19,7 @@ public class UserMapper {
     }
 
     public User getUserById(int userId) throws DatabaseException, SQLException {
-        String sql = "SELECT * FROM user WHERE user_id = ?";
+        String sql = "SELECT * FROM users WHERE user_id = ?";
         try (Connection connection = connectionPool.getConnection()) {
             try (PreparedStatement prepareStatement = connection.prepareStatement(sql)) {
                 prepareStatement.setInt(1, userId);
@@ -44,7 +44,7 @@ public class UserMapper {
 
     public User getUserByMail(String mail) throws DatabaseException {
         String sql = "SELECT user_id, name, mail, password, phone_number, accountBalance " +
-                "FROM user WHERE email = ?";
+                "FROM users WHERE mail = ?";
 
         try (Connection connection = connectionPool.getConnection();
              PreparedStatement ps = connection.prepareStatement(sql)) {
@@ -74,13 +74,13 @@ public class UserMapper {
 
 
     public User createUser(User user) throws DatabaseException {
-        String sql = "INSERT INTO user (name, email, phone_number, password) VALUES (?, ?, ?, ?)";
+        String sql = "INSERT INTO users (name, mail, password, phone_number) VALUES (?, ?, ?, ?)";
         try (Connection connection = connectionPool.getConnection();
              PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             ps.setString(1, user.getName());
             ps.setString(2, user.getEmail());
-            ps.setString(3, user.getPhoneNumber());
-            ps.setString(4, user.getPassword());
+            ps.setString(3, user.getPassword());
+            ps.setString(4, user.getPhoneNumber());
             ps.executeUpdate();
             try (ResultSet rs = ps.getGeneratedKeys()) {
                 if (rs.next()) {
@@ -98,7 +98,7 @@ public class UserMapper {
 
     public List<User> getAllUsers() throws DatabaseException {
         List<User> users = new ArrayList<>();
-        String sql = "SELECT * FROM user";
+        String sql = "SELECT * FROM users";
         try (
                 Connection connection = connectionPool.getConnection();
                 PreparedStatement prepareStatement = connection.prepareStatement(sql);
