@@ -43,25 +43,35 @@ public class UserMapper {
     }
 
     public User getUserByMail(String mail) throws DatabaseException {
-        String sql = "SELECT user_id, name, mail, password, phone_number, accountBalance " +
+        String sql = "SELECT user_id, name, mail, password, phone_number " +
                 "FROM users WHERE mail = ?";
 
+        User user = null;
         try (Connection connection = connectionPool.getConnection();
              PreparedStatement ps = connection.prepareStatement(sql)) {
 
             ps.setString(1, mail);
 
             try (ResultSet rs = ps.executeQuery()) {
+
                 if (rs.next()) {
+                    int id = rs.getInt("user_id");
+                    String username = rs.getString("name");
+                    String email = rs.getString("mail");
+                    String password = rs.getString("password");
+                    String phonenumber = rs.getString("phone_number");
+                    user = new User(id, username, email, phonenumber, password);
+                    /*
                     User user = new User(
                             rs.getString("mail"),
-                            rs.getString("phone_number"),
-                            rs.getString("password")
+                            rs.getString("password"),
+                            rs.getString("phone_number")
                     );
 
                     user.setUserId(rs.getInt("user_id"));
 
                     return user;
+                     */
                 }
             }
         } catch (SQLException e) {
@@ -69,7 +79,7 @@ public class UserMapper {
             throw new DatabaseException("Fejl ved hentning af bruger", e.getMessage());
         }
 
-        return null;
+        return user;
     }
 
 
