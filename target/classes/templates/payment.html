@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Betaling</title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+
+<header class="site-header">
+    <a href="frontpage.html" class="logo">Copenhagen <span>Cupcakes</span><small>CUPCAKE BAKERY</small></a>
+
+    <nav class="main-nav">
+        <a href="frontpage.html">Byg din egen</a>
+        <a href="cupcakes.html">Cupcakes</a>
+        <a href="admin.html">Admin</a>
+        <a href="#">Kontakt</a>
+    </nav>
+
+    <div class="header-right">
+        <a href="login.html" class="login-link">Log ind</a>
+        <a href="shoppingcart.html" class="cart-button">Kurv</a>
+
+        <details class="mobile-menu">
+            <summary>Menu</summary>
+            <a href="frontpage.html">Byg din egen</a>
+            <a href="cupcakes.html">Cupcakes</a>
+            <a href="admin.html">Admin</a>
+            <a href="#">Kontakt</a>
+            <a href="login.html">Log ind</a>
+        </details>
+    </div>
+</header>
+
+<main class="page">
+    <div class="modal modal-wide">
+        <a href="shoppingcart.html" class="back-link">← Tilbage til kurven</a>
+
+        <div class="info-box">
+            <strong>Opret en konto for at fortsætte</strong>
+            <p>Din ordre bliver gjort klar til afhentning i butikken.</p>
+        </div>
+
+        <!-- Trin 1: oprettelse af konto -->
+        <p class="step">Trin 1 af 2</p>
+        <h2>Opret konto</h2>
+
+        <div class="field">
+            <label for="fulde-navn">Fulde navn</label>
+            <input type="text" id="fulde-navn" placeholder="Dit fulde navn">
+        </div>
+
+        <div class="field">
+            <label for="email">E-mail</label>
+            <input type="email" id="email" placeholder="dig@email.dk">
+        </div>
+
+        <div class="field">
+            <label for="mobil">Mobilnummer</label>
+            <input type="tel" id="mobil" placeholder="+45 12 34 56 78">
+        </div>
+
+        <div class="field">
+            <label for="adgangskode">Vælg adgangskode</label>
+            <input type="password" id="adgangskode" placeholder="Mindst 8 tegn">
+        </div>
+
+        <div class="pickup-box">
+            <p class="eyebrow">Afhentning</p>
+            <strong>Copenhagen Cupcakes · Frederiksberg</strong>
+            <p>Vi giver dig besked på mail, så snart ordren er klar.</p>
+        </div>
+
+        <label class="checkbox">
+            <input type="checkbox">
+            Jeg accepterer handelsbetingelser og privatlivspolitik
+        </label>
+
+        <!-- Trin 2: betaling -->
+        <p class="step">Trin 2 af 2</p>
+        <h2>Betaling</h2>
+
+        <div class="field">
+            <label for="kort">Kortnummer</label>
+            <input type="text" id="kort" placeholder="1234 5678 9012 3456">
+        </div>
+
+        <div class="field-row">
+            <div class="field">
+                <label for="udloeb">Udløb</label>
+                <input type="text" id="udloeb" placeholder="MM/ÅÅ">
+            </div>
+            <div class="field">
+                <label for="cvc">CVC</label>
+                <input type="text" id="cvc" placeholder="123">
+            </div>
+        </div>
+
+        <div class="total-row">
+            <span>I alt</span>
+            <span>148,–</span>
+        </div>
+
+        <button type="button" class="btn btn-full" style="margin-top: 20px;">Betal og bestil</button>
+    </div>
+</main>
+
+<footer class="site-footer">
+    <div class="logo">Copenhagen <span>Cupcakes</span></div>
+    <p>Frederiksberg · København</p>
+    <p>Man–fre 10–17 · Lør 10–15</p>
+</footer>
+
+</body>
+</html>
