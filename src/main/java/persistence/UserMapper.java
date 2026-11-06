@@ -124,7 +124,7 @@ public class UserMapper {
 
     public void updateEmail(int userId, String newEmail)
             throws DatabaseException {
-        String sql = "UPDATE user SET email = ? WHERE user_id = ?";
+        String sql = "UPDATE users SET email = ? WHERE user_id = ?";
 
         try (Connection connection = connectionPool.getConnection();
              PreparedStatement ps = connection.prepareStatement(sql)) {
@@ -141,7 +141,7 @@ public class UserMapper {
 
     public void updatePhoneNumber(int userId, String newPhoneNumber)
             throws DatabaseException {
-        String sql = "UPDATE user SET phone_number = ? WHERE user_id = ?";
+        String sql = "UPDATE users SET phone_number = ? WHERE user_id = ?";
 
         try (Connection connection = connectionPool.getConnection();
              PreparedStatement ps = connection.prepareStatement(sql)) {
@@ -158,7 +158,7 @@ public class UserMapper {
 
     public void updatePassword(int userId, String newPassword)
             throws DatabaseException {
-        String sql = "UPDATE user SET password = ? WHERE user_id = ?";
+        String sql = "UPDATE users SET password = ? WHERE user_id = ?";
 
         try (Connection connection = connectionPool.getConnection();
              PreparedStatement ps = connection.prepareStatement(sql)) {
