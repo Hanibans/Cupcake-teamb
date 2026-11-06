@@ -11,7 +11,7 @@ public class User {
     private String phoneNumber;
     private double accountBalance = 100.0;
     private boolean isAdmin;
-    private List<Order> orders;
+    private List<Order> orders = new ArrayList<>();
 
 
     public User(int userId, String email, String password) {
@@ -97,10 +97,7 @@ public class User {
         return orders;
     }
 
-    public Order addOrders(Order order) {
-        List<Order> orderList = new ArrayList<>();
-        orderList.add(order);
-
-        return order;
+    public void addOrders(Order order) {
+        orders.add(order);
     }
 }

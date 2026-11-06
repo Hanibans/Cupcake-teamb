@@ -1,22 +1,41 @@
 package entities;
 
-public class Orderline {
-    private User user;
-    private Cupcakes cupcakes;
-    private int quantity;
+import java.util.ArrayList;
+import java.util.List;
 
-    public Orderline(User user, Cupcakes cupcakes, int quantity) {
-        this.user = user;
+public class Orderline {
+    private int orderlineId;
+    private Cupcakes cupcakes;
+    private CupcakeTopping cupcakeTopping;
+    private CupcakeBase cupcakeBase;
+    private int quantity;
+    private List<Orderline> orderlines = new ArrayList<>();
+
+    public Orderline(Cupcakes cupcakes, int quantity) {
         this.cupcakes = cupcakes;
         this.quantity = quantity;
     }
 
-    public User getUser() {
-        return user;
+    public Orderline(CupcakeBase cupcakeBase, CupcakeTopping cupcakeTopping, int quantity) {
+        this.cupcakeBase = cupcakeBase;
+        this.cupcakeTopping = cupcakeTopping;
+        this.quantity = quantity;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public CupcakeBase getCupcakeBase() {
+        return cupcakeBase;
+    }
+
+    public CupcakeTopping getCupcakeTopping() {
+        return cupcakeTopping;
+    }
+
+    public int getOrderlineId() {
+        return orderlineId;
+    }
+
+    public void setOrderlineId(int orderlineId) {
+        this.orderlineId = orderlineId;
     }
 
     public Cupcakes getCupcakes() {
@@ -33,5 +52,9 @@ public class Orderline {
 
     public void setQuantity(int quantity) {
         this.quantity = quantity;
+    }
+
+    public void addOrderline(Orderline orderline) {
+        orderlines.add(orderline);
     }
 }
