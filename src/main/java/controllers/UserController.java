@@ -64,7 +64,7 @@ public class UserController {
 
         User user = userService.login(email, password);
         if (user != null) {
-            ctx.sessionAttribute("user", user);
+            ctx.sessionAttribute("user", user.getUserId());
             ctx.redirect("/frontpage.html");
         } else {
             ctx.status(400);
