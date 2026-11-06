@@ -1,4 +1,5 @@
 import configuration.ThymeleafConfig;
+import controllers.OrderController;
 import controllers.UserController;
 import persistence.ConnectionPool;
 import io.javalin.Javalin;
@@ -18,8 +19,10 @@ public class Main {
             config.staticFiles.add("/public");
             config.fileRenderer(new JavalinThymeleaf(ThymeleafConfig.templateEngine()));
             UserController userController = new UserController(connectionPool);
+            OrderController orderController = new OrderController(connectionPool);
 
             userController.setRoutes(config);
+            orderController.setRoutes(config);
 
 
         }).start(7070);
