@@ -30,6 +30,13 @@ public class User {
         this.email = email;
     }
 
+    public User(String name, String email, String phoneNumber, String password) {
+        this.name = name;
+        this.email = email;
+        this.phoneNumber = phoneNumber;
+        this.password = password;
+    }
+
     public int getUserId() {
         return userId;
     }

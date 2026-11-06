@@ -19,7 +19,7 @@ public class UserMapper {
     }
 
     public User getUserById(int userId) throws DatabaseException, SQLException {
-        String sql = "SELECT * FROM users WHERE user_id = ?";
+        String sql = "SELECT * FROM User WHERE user_id = ?";
         try (Connection connection = connectionPool.getConnection()) {
             try (PreparedStatement prepareStatement = connection.prepareStatement(sql)) {
                 prepareStatement.setInt(1, userId);
@@ -43,8 +43,8 @@ public class UserMapper {
     }
 
     public User getUserByMail(String mail) throws DatabaseException {
-        String sql = "SELECT user_id, name, mail, password, phoneNumber, accountBalance " +
-                "FROM users WHERE mail = ?";
+        String sql = "SELECT user_id, name, mail, password, phone_number, accountBalance " +
+                "FROM User WHERE email = ?";
 
         try (Connection connection = connectionPool.getConnection();
              PreparedStatement ps = connection.prepareStatement(sql)) {
@@ -74,12 +74,13 @@ public class UserMapper {
 
 
     public User createUser(User user) throws DatabaseException {
-        String sql = "INSERT INTO users (phone_number, mail, password) VALUES (?, ?, ?)";
+        String sql = "INSERT INTO User (name, email, phone_number, password) VALUES (?, ?, ?, ?)";
         try (Connection connection = connectionPool.getConnection();
              PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
-            ps.setString(1, user.getPhoneNumber());
+            ps.setString(1, user.getName());
             ps.setString(2, user.getEmail());
-            ps.setString(3, user.getPassword());
+            ps.setString(3, user.getPhoneNumber());
+            ps.setString(4, user.getPassword());
             ps.executeUpdate();
             try (ResultSet rs = ps.getGeneratedKeys()) {
                 if (rs.next()) {
@@ -97,7 +98,7 @@ public class UserMapper {
 
     public List<User> getAllUsers() throws DatabaseException {
         List<User> users = new ArrayList<>();
-        String sql = "SELECT * FROM users";
+        String sql = "SELECT * FROM User";
         try (
                 Connection connection = connectionPool.getConnection();
                 PreparedStatement prepareStatement = connection.prepareStatement(sql);
@@ -123,7 +124,7 @@ public class UserMapper {
 
     public void updateEmail(int userId, String newEmail)
             throws DatabaseException {
-        String sql = "UPDATE users SET mail = ? WHERE user_id = ?";
+        String sql = "UPDATE User SET email = ? WHERE user_id = ?";
 
         try (Connection connection = connectionPool.getConnection();
              PreparedStatement ps = connection.prepareStatement(sql)) {
@@ -140,7 +141,7 @@ public class UserMapper {
 
     public void updatePhoneNumber(int userId, String newPhoneNumber)
             throws DatabaseException {
-        String sql = "UPDATE users SET phone_number = ? WHERE user_id = ?";
+        String sql = "UPDATE User SET phone_number = ? WHERE user_id = ?";
 
         try (Connection connection = connectionPool.getConnection();
              PreparedStatement ps = connection.prepareStatement(sql)) {
@@ -157,7 +158,7 @@ public class UserMapper {
 
     public void updatePassword(int userId, String newPassword)
             throws DatabaseException {
-        String sql = "UPDATE users SET password = ? WHERE user_id = ?";
+        String sql = "UPDATE User SET password = ? WHERE user_id = ?";
 
         try (Connection connection = connectionPool.getConnection();
              PreparedStatement ps = connection.prepareStatement(sql)) {

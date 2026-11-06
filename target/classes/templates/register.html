@@ -47,25 +47,25 @@
             <a href="register.html" class="tab active">Opret bruger</a>
         </div>
 
-        <form>
+        <form method="post" action="/createuser">
             <div class="field">
                 <label for="navn">Navn</label>
-                <input type="text" id="navn" placeholder="Dit navn">
+                <input type="text" id="navn" name="name" autocomplete="name" placeholder="Dit navn" required>
             </div>
 
             <div class="field">
                 <label for="email">E-mail</label>
-                <input type="email" id="email" placeholder="dig@email.dk">
+                <input type="email" id="email" name="email" autocomplete="email" placeholder="dig@email.dk" required>
             </div>
 
             <div class="field">
                 <label for="mobil">Mobilnummer</label>
-                <input type="tel" id="mobil" placeholder="+45 12 34 56 78">
+                <input type="tel" id="mobil" name="phonenumber" autocomplete="tel"  placeholder="+45 12 34 56 78" required>
             </div>
 
             <div class="field">
                 <label for="password">Adgangskode</label>
-                <input type="password" id="password" placeholder="Mindst 8 tegn">
+                <input type="password" id="password" name="password" autocomplete="new-password" placeholder="Mindst 8 tegn" minlength="8" required>
             </div>
 
             <button type="submit" class="btn btn-full">Opret bruger</button>

@@ -21,16 +21,27 @@ public class UserController {
     }
 
     public void setRoutes(JavalinConfig config) {
-        config.routes.get("/", ctx -> renderFrontpage(ctx));
-        config.routes.post("/", ctx -> ctx.redirect("/frontpage.html"));
-        config.routes.post("/createuser", ctx -> createUser(ctx));
-        config.routes.get("/createuser", ctx -> ctx.redirect("/register.html"));
-        config.routes.post("/login", ctx -> login(ctx));
-        config.routes.get("/login", ctx -> ctx.redirect("/login.html"));
+            // pages
+            config.routes.get("/", ctx -> renderFrontpage(ctx));
+            config.routes.get("/frontpage.html", ctx -> renderFrontpage(ctx));
+            config.routes.get("/login.html", ctx -> ctx.render("login.html"));
+            config.routes.get("/register.html", ctx -> ctx.render("register.html"));
+            config.routes.get("/cupcakes.html", ctx -> ctx.render("cupcakes.html"));
+            config.routes.get("/shoppingcart.html", ctx -> ctx.render("shoppingcart.html"));
+            config.routes.get("/payment.html", ctx -> ctx.render("payment.html"));
+            config.routes.get("/profile.html", ctx -> ctx.render("profile.html"));
+            config.routes.get("/admin.html", ctx -> ctx.render("admin.html"));
 
-    }
+            // form handling, using your methods
+            config.routes.post("/createuser", ctx -> createUser(ctx));
+            config.routes.post("/login", ctx -> login(ctx));
 
-    private void createUser(Context ctx) {
+            // redirects
+            config.routes.get("/createuser", ctx -> ctx.redirect("/register.html"));
+            config.routes.get("/login", ctx -> ctx.redirect("/login.html"));
+        }
+
+    public void createUser(Context ctx) {
         String name = ctx.formParam("name");
         String email = ctx.formParam("email");
         String phoneNumber = ctx.formParam("phonenumber");
@@ -38,7 +49,7 @@ public class UserController {
 
         try {
             User user = userService.createUser(name, email, phoneNumber, password);
-            ctx.sessionAttribute("user", user);
+            ctx.sessionAttribute("user", user.getUserId());
             ctx.redirect("/frontpage.html");
         } catch (IllegalUserDataException e) {
             ctx.status(404);

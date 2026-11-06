@@ -24,7 +24,7 @@ public class UserService {
             if (userMapper.userExists(email, phoneNumber)) {
                 throw new IllegalUserDataException("Der findes allerede en konto med denne email eller dette telefonnummer.");
             }
-            return userMapper.createUser(new User(email, phoneNumber, password));
+            return userMapper.createUser(new User(name, email, phoneNumber, password));
         } catch (DatabaseException e) {
             throw new IllegalUserDataException("Kunne ikke oprette brugeren. Prøv igen senere.");
         }
@@ -61,9 +61,6 @@ public class UserService {
     public void validatePassword(String password) throws IllegalUserDataException {
         if (password == null || password.length() < 8 || password.length() > 15) {
             throw new IllegalUserDataException("Adgangskoden skal være mellem 8 og 15 tegn.");
-        }
-        if (!password.matches("[A-Za-z]") || !password.matches(".*\\d.*")) {
-            throw new IllegalUserDataException("Adgangskoden skal indeholde mindst ét bogstav og ét tal.");
         }
     }
 }
