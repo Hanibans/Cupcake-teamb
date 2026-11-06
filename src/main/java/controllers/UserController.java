@@ -22,6 +22,7 @@ public class UserController {
 
     public void setRoutes(JavalinConfig config) {
         config.routes.get("/", ctx -> renderFrontpage(ctx));
+        config.routes.post("/", ctx -> ctx.redirect("/frontpage.html"));
         config.routes.post("/createuser", ctx -> createUser(ctx));
         config.routes.get("/createuser", ctx -> ctx.redirect("/register.html"));
         config.routes.post("/login", ctx -> login(ctx));
