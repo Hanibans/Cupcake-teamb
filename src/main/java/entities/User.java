@@ -9,7 +9,7 @@ public class User {
     private String email;
     private String password;
     private String phoneNumber;
-    private double accountBalance;
+    private double accountBalance = 100.0;
     private boolean isAdmin;
     private List<Order> orders;
 
