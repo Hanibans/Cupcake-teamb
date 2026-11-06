@@ -32,7 +32,7 @@ public class UserController {
             config.routes.get("/profile.html", ctx -> ctx.render("profile.html"));
             config.routes.get("/admin.html", ctx -> ctx.render("admin.html"));
 
-            // form handling, using your methods
+            // form handling
             config.routes.post("/createuser", ctx -> createUser(ctx));
             config.routes.post("/login", ctx -> login(ctx));
 
