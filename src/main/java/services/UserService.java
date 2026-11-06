@@ -46,5 +46,8 @@ public class UserService {
         if (password == null || password.length() < 8 || password.length() > 15) {
             throw new IllegalUserDataException("Adgangskoden skal være mellem 8 og 15 tegn.");
         }
+        if (!password.matches("[A-Za-z]") || !password.matches(".*\\d.*")) {
+            throw new IllegalUserDataException("Adgangskoden skal indeholde mindst ét bogstav og ét tal.");
+        }
     }
 }
