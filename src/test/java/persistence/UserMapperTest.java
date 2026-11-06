@@ -59,4 +59,5 @@ class UserMapperTest {
         assertFalse(created.getUserId() > 3);
     }
 
+
 }
