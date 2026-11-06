@@ -1,4 +1,5 @@
 import configuration.ThymeleafConfig;
+import controllers.UserController;
 import persistence.ConnectionPool;
 import io.javalin.Javalin;
 import io.javalin.rendering.template.JavalinThymeleaf;
@@ -16,6 +17,8 @@ public class Main {
         Javalin.create(config -> {
             config.staticFiles.add("/public");
             config.fileRenderer(new JavalinThymeleaf(ThymeleafConfig.templateEngine()));
+            UserController userController = new UserController(connectionPool);
+
 
 
         }).start(7070);
