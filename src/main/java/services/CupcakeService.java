@@ -41,11 +41,5 @@ public class CupcakeService {
         return new Orderline(base, topping, quantity);
     }
 
-    public int calculateOrderlinePrice(Orderline orderline){
-        return (orderline.getCupcakeBase().getPrice() + orderline.getCupcakeTopping().getPrice())
-                * orderline.getQuantity();
-
-    }
-
 
 }
