@@ -21,9 +21,38 @@ public class OrderController {
     }
 
     public void setRoutes(JavalinConfig config) {
+        // Måske skal vi gå væk fra at bruge routing til at fjerne og
         config.routes.post("/orderline/add", ctx -> addOrderline(ctx));
         config.routes.post("/orderline/remove", ctx -> removeOrderline(ctx));
         config.routes.post("/order/checkout", ctx -> checkout(ctx));
+
+        // Ny route til at teste betalingslogik
+        config.routes.get("/cart/order", ctx -> orderProcessing(ctx));
+    }
+
+    public void orderProcessing(Context ctx){
+        //Tjek om bruger er logget ind
+        User user = ctx.sessionAttribute("user");
+        if (user == null){
+            ctx.redirect("/login/checkout");
+        }
+
+        /*
+        get session cart/order
+        get total
+
+        get user account balance
+        if (userAccountBalance >= orderTotal) {
+            make orderdata ready for service/database
+            send orderdata to service
+            update user account balance i databasen
+            bekræft at saldo er opdateret
+            redirect til order confirmation
+        }
+        else {
+            send tilbage til forsiden(skiftes ud til cart senere) med besked om at saldo er for lav?
+        }
+         */
     }
 
     private void addOrderline(Context ctx) {
@@ -56,7 +85,7 @@ public class OrderController {
             List<Orderline> orderlines = ctx.sessionAttribute("orderlines");
 
             if (user == null) {
-                ctx.redirect("/login.html");
+                ctx.redirect("/login/order");
                 return;
             }
 

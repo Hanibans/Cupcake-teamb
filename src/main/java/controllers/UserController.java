@@ -13,12 +13,10 @@ import persistence.UserMapper;
 public class UserController {
     private ConnectionPool connectionPool;
     private UserService userService;
-    private UserMapper userMapper;
 
     public UserController(ConnectionPool connectionPool) {
         this.connectionPool = connectionPool;
         this.userService = new UserService(connectionPool);
-        this.userMapper = new UserMapper(connectionPool);
     }
 
     public void setRoutes(JavalinConfig config) {
@@ -40,6 +38,9 @@ public class UserController {
             // redirects
             config.routes.get("/createuser", ctx -> ctx.redirect("/register.html"));
             config.routes.get("/login", ctx -> ctx.redirect("/login.html"));
+
+            config.routes.post("/login/checkout", ctx -> loginCheckout(ctx));
+
         }
 
     public void createUser(Context ctx) {
@@ -66,6 +67,19 @@ public class UserController {
         if (user != null) {
             ctx.sessionAttribute("user", user.getUserId());
             ctx.redirect("/frontpage.html");
+        } else {
+            ctx.status(400);
+            ctx.result("Forkert email eller adgangskode");
+        }
+    }
+
+    public void loginCheckout(Context ctx) {
+        String email = ctx.formParam("email");
+        String password = ctx.formParam("password");
+        User user = userService.login(email, password);
+        if (user != null) {
+            ctx.sessionAttribute("user", user.getUserId());
+            ctx.redirect("/cart/order");
         } else {
             ctx.status(400);
             ctx.result("Forkert email eller adgangskode");

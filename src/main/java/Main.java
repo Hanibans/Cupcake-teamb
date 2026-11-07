@@ -1,4 +1,5 @@
 import configuration.ThymeleafConfig;
+import controllers.CartController;
 import controllers.OrderController;
 import controllers.UserController;
 import persistence.ConnectionPool;
@@ -20,6 +21,7 @@ public class Main {
             config.fileRenderer(new JavalinThymeleaf(ThymeleafConfig.templateEngine()));
             UserController userController = new UserController(connectionPool);
             OrderController orderController = new OrderController(connectionPool);
+            CartController cartController = new CartController(connectionPool);
 
             userController.setRoutes(config);
             orderController.setRoutes(config);
