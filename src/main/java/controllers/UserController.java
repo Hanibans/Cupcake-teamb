@@ -73,9 +73,12 @@ public class UserController {
     }
 
 
+
+
     public void renderFrontpage(Context ctx){
         ctx.render("/frontpage.html");
     }
+
 
 
 }

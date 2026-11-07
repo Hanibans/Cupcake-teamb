@@ -20,9 +20,9 @@ public class CupcakeMapper {
         this.connectionPool = connectionPool;
     }
 
-    public List<Cupcakes> getAllCupcakes() throws DatabaseException {
+    /* public List<Cupcakes> getAllCupcakes() throws DatabaseException {
         List<Cupcakes> cupcakes = new ArrayList<>();
-        String sql = "SELECT base_id, flavor, price FROM cupcake";
+        String sql = "SELECT base_id, topping_id, flavor, price FROM cupcake";
         try (Connection c = connectionPool.getConnection();
              PreparedStatement ps = c.prepareStatement(sql);
              ResultSet rs = ps.executeQuery()) {
@@ -35,7 +35,7 @@ public class CupcakeMapper {
             throw new DatabaseException("Kunne ikke hente bunde", e.getMessage());
         }
         return cupcakes;
-    }
+    }*/
 
     public List<CupcakeBase> getAllBases() throws DatabaseException {
         List<CupcakeBase> bases = new ArrayList<>();
