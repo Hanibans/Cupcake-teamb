@@ -57,19 +57,18 @@
             <div class="field">
                 <label for="base">01 Bund</label>
                 <select id="base" name="base">
-                    <option>Vanilje</option>
-                    <option>Chokolade</option>
-                    <option>Gulerod</option>
+                    <option th:each="base : ${bases}"
+                            th:value="${base.id}"
+                            th:text="${base.flavor}">Bund</option>
                 </select>
             </div>
 
             <div class="field">
                 <label for="topping">02 Topping</label>
                 <select id="topping" name="topping">
-                    <option>Jordbærcreme</option>
-                    <option>Smørcreme</option>
-                    <option>Vaniljefrosting</option>
-                    <option>Chokoladefrosting</option>
+                    <option th:each="topping : ${toppings}"
+                            th:value="${topping.id}"
+                            th:text="${topping.flavor}">Topping</option>
                 </select>
             </div>
 
