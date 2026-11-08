@@ -15,12 +15,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class OrderController {
-    private ConnectionPool connectionPool;
-    private OrderService orderService;
+    private final ConnectionPool connectionPool;
+    private final OrderService orderService;
+    private final CupcakeMapper cupcakeMapper;
 
     public OrderController(ConnectionPool connectionPool) {
         this.connectionPool = connectionPool;
         this.orderService = new OrderService(connectionPool);
+        this.cupcakeMapper = new CupcakeMapper(connectionPool);
     }
 
     public void setRoutes(JavalinConfig config) {
@@ -74,7 +76,10 @@ public class OrderController {
         }
         List<Orderline> orderlines = ctx.sessionAttribute("orderlines");
 
-        orderlines.add(new Orderline(CupcakeMapper.getBaseById(baseId), CupcakeMapper.getToppingById(toppingId), quantity));
+        orderlines.add(new Orderline(
+                cupcakeMapper.getBaseById(baseId),
+                cupcakeMapper.getToppingById(toppingId),
+                quantity));
     }
 
         private void removeOrderline (Context ctx){

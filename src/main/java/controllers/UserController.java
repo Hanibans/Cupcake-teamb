@@ -10,13 +10,18 @@ import io.javalin.http.Context;
 import persistence.ConnectionPool;
 import persistence.UserMapper;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class UserController {
-    private ConnectionPool connectionPool;
-    private UserService userService;
+    private final ConnectionPool connectionPool;
+    private final UserService userService;
+    private final CupcakeMapper cupcakeMapper;
 
     public UserController(ConnectionPool connectionPool) {
         this.connectionPool = connectionPool;
         this.userService = new UserService(connectionPool);
+        this.cupcakeMapper = new CupcakeMapper(connectionPool);
     }
 
     public void setRoutes(JavalinConfig config) {
@@ -88,8 +93,11 @@ public class UserController {
     }
 
 
-    public void renderFrontpage(Context ctx){
-        ctx.render("/frontpage.html");
+    public void renderFrontpage(Context ctx) throws DatabaseException {
+        Map<String, Object> model = new HashMap<>();
+        model.put("bases", cupcakeMapper.getAllBases());
+        model.put("toppings", cupcakeMapper.getAllToppings());
+        ctx.render("frontpage.html", model);
     }
 
 

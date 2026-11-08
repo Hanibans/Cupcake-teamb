@@ -58,7 +58,7 @@
                 <label for="baseId">01 Bund</label>
                 <select id="baseId" name="baseId">
                     <option th:each="base : ${bases}"
-                            th:value="${base.id}"
+                            th:value="${base.cupcakeId}"
                             th:text="${base.flavor}">Bund</option>
                 </select>
             </div>
@@ -67,7 +67,7 @@
                 <label for="toppingId">02 Topping</label>
                 <select id="toppingId" name="toppingId">
                     <option th:each="topping : ${toppings}"
-                            th:value="${topping.id}"
+                            th:value="${topping.cupcakeId}"
                             th:text="${topping.flavor}">Topping</option>
                 </select>
             </div>
