@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="da">
+<html lang="da" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,30 +8,7 @@
 </head>
 <body>
 
-<header class="site-header">
-    <a href="frontpage.html" class="logo">Copenhagen <span>Cupcakes</span><small>CUPCAKE BAKERY</small></a>
-
-    <nav class="main-nav">
-        <a href="frontpage.html">Byg din egen</a>
-        <a href="cupcakes.html">Cupcakes</a>
-        <a href="admin.html">Admin</a>
-        <a href="#">Kontakt</a>
-    </nav>
-
-    <div class="header-right">
-        <a href="login.html" class="login-link">Log ind</a>
-        <a href="shoppingcart.html" class="cart-button">Kurv</a>
-
-        <details class="mobile-menu">
-            <summary>Menu</summary>
-            <a href="frontpage.html">Byg din egen</a>
-            <a href="cupcakes.html">Cupcakes</a>
-            <a href="admin.html">Admin</a>
-            <a href="#">Kontakt</a>
-            <a href="login.html">Log ind</a>
-        </details>
-    </div>
-</header>
+<header th:replace="~{fragments :: header}"></header>
 
 <main>
     <!-- Billedet med tekst øverst på siden -->
@@ -87,11 +64,7 @@
     </section>
 </main>
 
-<footer class="site-footer">
-    <div class="logo">Copenhagen <span>Cupcakes</span></div>
-    <p>Frederiksberg · København</p>
-    <p>Man–fre 10–17 · Lør 10–15</p>
-</footer>
+<footer th:replace="~{fragments :: footer}"></footer>
 
 </body>
 </html>
