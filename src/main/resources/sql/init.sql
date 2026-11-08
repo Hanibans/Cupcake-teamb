@@ -42,7 +42,7 @@ CREATE TABLE IF NOT EXISTS public."Orderline"
     orderline_id serial NOT NULL,
     order_id integer NOT NULL,
     base_id integer NOT NULL,
-    topping_id id integer NOT NULL,
+    topping_id integer NOT NULL,
     quantity integer NOT NULL,
     CONSTRAINT "Orderline_pkey" PRIMARY KEY (orderline_id)
     );
