@@ -26,41 +26,12 @@ public class OrderController {
     }
 
     public void setRoutes(JavalinConfig config) {
-        // Måske skal vi gå væk fra at bruge routing til at fjerne og
         config.routes.post("/orderline/add", ctx -> addOrderline(ctx));
         config.routes.post("/orderline/remove", ctx -> removeOrderline(ctx));
         config.routes.post("/order/checkout", ctx -> checkout(ctx));
 
         // Ny route til at teste betalingslogik
         config.routes.get("/cart/order", ctx -> checkout(ctx));
-    }
-
-    public void orderProcessing(Context ctx){
-        //Tjek om bruger er logget ind
-        User user = ctx.sessionAttribute("user");
-        if (user == null){
-            //Redirect til en specifik login-side som redirecter brugeren tilbage til orderProcessing efter de er logget ind
-            ctx.redirect("/login/checkout");
-            //Slutter processen med et return statement så funktionen ikke er åben / bliver ved med at køre.
-            return;
-        }
-
-        /*
-        get session cart/order
-        get total
-
-        get user account balance
-        if (userAccountBalance >= orderTotal) {
-            gør orderdata klar for service/database
-            send orderdata til service/database
-            update user account balance i databasen
-            bekræft at saldo er opdateret
-            redirect til order confirmation
-        }
-        else {
-            send tilbage til forsiden(skiftes ud til cart senere) med besked om at saldo er for lav?
-        }
-         */
     }
 
     private void addOrderline(Context ctx) throws DatabaseException {
@@ -84,44 +55,46 @@ public class OrderController {
         ctx.redirect("/cart/order");
     }
 
-        private void removeOrderline (Context ctx){
-            int index = Integer.parseInt(ctx.formParam("index"));
+    private void removeOrderline (Context ctx){
+        int index = Integer.parseInt(ctx.formParam("index"));
+        List<Orderline> orderlines = ctx.sessionAttribute("orderlines");
+        if (orderlines != null && index >= 0 && index < orderlines.size()) {
+            orderlines.remove(index);
+        }
+        ctx.sessionAttribute("orderlines", orderlines);
+        ctx.redirect("/shoppingcart.html");
+    }
 
-            List<Orderline> orderlines = ctx.sessionAttribute("orderlines");
+    private void checkout (Context ctx) throws DatabaseException {
+        // Tjek om bruger er logget ind
+        User user = ctx.sessionAttribute("user");
 
-            if (orderlines != null && index >= 0 && index < orderlines.size()) {
-                orderlines.remove(index);
-            }
+        //Load OrderLines, lige nu er det direkte fra forsiden men senere skal de hentes fra cart
+        List<Orderline> orderlines = ctx.sessionAttribute("orderlines");
 
-            ctx.sessionAttribute("orderlines", orderlines);
-            ctx.redirect("/shoppingcart.html");
+        // Hvis bruger ikke er logget så redirect til side der redirecter tilbage her efter login
+        if (user == null) {
+            ctx.redirect("/login/checkout");
+            return;
         }
 
-        private void checkout (Context ctx) throws DatabaseException {
-            User user = ctx.sessionAttribute("user");
-            List<Orderline> orderlines = ctx.sessionAttribute("orderlines");
+        if (orderlines == null || orderlines.isEmpty()) {
+            ctx.redirect("/shoppingcart.html");
+            return;
+        }
 
-            if (user == null) {
-                ctx.redirect("/login/checkout");
-                return;
-            }
+        try {
+            orderService.addOrder(user, orderlines);
 
-            if (orderlines == null || orderlines.isEmpty()) {
-                ctx.redirect("/shoppingcart.html");
-                return;
-            }
+            // Tøm indkøbskurven
+            ctx.sessionAttribute("orderlines", new ArrayList<Orderline>());
 
-            try {
-                orderService.addOrder(user, orderlines);
+            //ctx.redirect("/....html"); - send brugeren til ordrebekræftelsen eller bare en lille tekst??
+            ctx.result("Tak for bestillingen!");
 
-                // Tøm indkøbskurven
-                ctx.sessionAttribute("orderlines", new ArrayList<Orderline>());
-                ctx.result("Tak for bestillingen!");
-                //ctx.redirect("/....html"); - send brugeren til ordrebekræftelsen eller bare en lille tekst??
-
-            } catch (DatabaseException e) {
-                ctx.status(500);
-                ctx.result("Der opstod en fejl ved oprettelse af ordren.");
-            }
+        } catch (DatabaseException e) {
+            ctx.status(500);
+            ctx.result("Der opstod en fejl ved oprettelse af ordren.");
         }
     }
+}
