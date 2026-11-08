@@ -34,7 +34,10 @@ public class OrderController {
         //Tjek om bruger er logget ind
         User user = ctx.sessionAttribute("user");
         if (user == null){
+            //Redirect til en specifik login-side som redirecter brugeren tilbage til orderProcessing efter de er logget ind
             ctx.redirect("/login/checkout");
+            //Slutter processen med et return statement så funktionen ikke er åben / bliver ved med at køre.
+            return;
         }
 
         /*
@@ -43,8 +46,8 @@ public class OrderController {
 
         get user account balance
         if (userAccountBalance >= orderTotal) {
-            make orderdata ready for service/database
-            send orderdata to service
+            gør orderdata klar for service/database
+            send orderdata til service/database
             update user account balance i databasen
             bekræft at saldo er opdateret
             redirect til order confirmation

@@ -13,7 +13,8 @@ public class CartController {
     }
 
     public void setRoutes(JavalinConfig config) {
-        config.routes.post("/cart/", ctx -> displayCart(ctx));
+        config.routes.post("/cart", ctx -> displayCart(ctx));
+
     }
 
     public void displayCart(Context ctx){

@@ -25,6 +25,7 @@ public class Main {
 
             userController.setRoutes(config);
             orderController.setRoutes(config);
+            cartController.setRoutes(config);
 
 
         }).start(7070);

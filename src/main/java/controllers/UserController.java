@@ -39,6 +39,7 @@ public class UserController {
             config.routes.get("/createuser", ctx -> ctx.redirect("/register.html"));
             config.routes.get("/login", ctx -> ctx.redirect("/login.html"));
 
+            config.routes.get("/login/checkout", ctx -> ctx.render("logincheckout"));
             config.routes.post("/login/checkout", ctx -> loginCheckout(ctx));
 
         }
@@ -65,7 +66,7 @@ public class UserController {
         String password = ctx.formParam("password");
         User user = userService.login(email, password);
         if (user != null) {
-            ctx.sessionAttribute("user", user.getUserId());
+            ctx.sessionAttribute("user", user);
             ctx.redirect("/frontpage.html");
         } else {
             ctx.status(400);
@@ -78,7 +79,7 @@ public class UserController {
         String password = ctx.formParam("password");
         User user = userService.login(email, password);
         if (user != null) {
-            ctx.sessionAttribute("user", user.getUserId());
+            ctx.sessionAttribute("user", user);
             ctx.redirect("/cart/order");
         } else {
             ctx.status(400);
