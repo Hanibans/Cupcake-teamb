@@ -14,7 +14,7 @@ import java.util.List;
 public class CupcakeMapper {
 
     private static final Logger logger = LoggerFactory.getLogger(CupcakeMapper.class);
-    private final ConnectionPool connectionPool;
+    private static ConnectionPool connectionPool = null;
 
     public CupcakeMapper(ConnectionPool connectionPool) {
         this.connectionPool = connectionPool;
@@ -69,7 +69,7 @@ public class CupcakeMapper {
         return toppings;
     }
 
-    public CupcakeBase getBaseById(int id) throws DatabaseException {
+    public static CupcakeBase getBaseById(int id) throws DatabaseException {
         String sql = "SELECT base_id, flavor, price FROM cupcake_base WHERE base_id = ?";
         try (Connection c = connectionPool.getConnection();
              PreparedStatement ps = c.prepareStatement(sql)) {
@@ -86,7 +86,7 @@ public class CupcakeMapper {
         return null;
     }
 
-    public CupcakeTopping getToppingById(int id) throws DatabaseException {
+    public static CupcakeTopping getToppingById(int id) throws DatabaseException {
         String sql = "SELECT topping_id, flavor, price FROM cupcake_topping WHERE topping_id = ?";
         try (Connection c = connectionPool.getConnection();
              PreparedStatement ps = c.prepareStatement(sql)) {

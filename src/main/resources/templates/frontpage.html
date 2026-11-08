@@ -55,8 +55,8 @@
 
         <form class="builder" action="/cart" method="post">
             <div class="field">
-                <label for="base">01 Bund</label>
-                <select id="base" name="base">
+                <label for="baseId">01 Bund</label>
+                <select id="baseId" name="baseId">
                     <option th:each="base : ${bases}"
                             th:value="${base.id}"
                             th:text="${base.flavor}">Bund</option>
@@ -64,8 +64,8 @@
             </div>
 
             <div class="field">
-                <label for="topping">02 Topping</label>
-                <select id="topping" name="topping">
+                <label for="toppingId">02 Topping</label>
+                <select id="toppingId" name="toppingId">
                     <option th:each="topping : ${toppings}"
                             th:value="${topping.id}"
                             th:text="${topping.flavor}">Topping</option>
@@ -73,8 +73,8 @@
             </div>
 
             <div class="field">
-                <label for="antal">03 Antal</label>
-                <select id="antal" name="antal">
+                <label for="quantity">03 Antal</label>
+                <select id="quantity" name="quantity">
                     <option value="1">1 stk.</option>
                     <option value="6">6 stk.</option>
                     <option value="12">12 stk.</option>

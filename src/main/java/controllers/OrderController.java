@@ -1,9 +1,12 @@
 package controllers;
 
+import entities.CupcakeBase;
+import entities.Order;
 import entities.Orderline;
 import entities.User;
 import exceptions.DatabaseException;
 import persistence.ConnectionPool;
+import persistence.CupcakeMapper;
 import services.OrderService;
 import io.javalin.config.JavalinConfig;
 import io.javalin.http.Context;
@@ -27,7 +30,7 @@ public class OrderController {
         config.routes.post("/order/checkout", ctx -> checkout(ctx));
 
         // Ny route til at teste betalingslogik
-        config.routes.get("/cart/order", ctx -> orderProcessing(ctx));
+        config.routes.get("/cart/order", ctx -> checkout(ctx));
     }
 
     public void orderProcessing(Context ctx){
@@ -58,16 +61,20 @@ public class OrderController {
          */
     }
 
-    private void addOrderline(Context ctx) {
+    private void addOrderline(Context ctx) throws DatabaseException {
         int baseId = Integer.parseInt(ctx.formParam("baseId"));
         int toppingId = Integer.parseInt(ctx.formParam("toppingId"));
         int quantity = Integer.parseInt(ctx.formParam("quantity"));
 
+        // Opret ny List for orderlines, hvis den eksisterer har vi orderlines, hvis den ikke eksisterer
+        //  så har vi en null værdi
+        if (ctx.sessionAttribute("orderlines") == null){
+            List<Orderline> orderlines = new ArrayList<Orderline>();
+            ctx.sessionAttribute("orderlines", orderlines);
+        }
         List<Orderline> orderlines = ctx.sessionAttribute("orderlines");
 
-        if (orderlines == null) {
-            orderlines = new ArrayList<>();
-        }
+        orderlines.add(new Orderline(CupcakeMapper.getBaseById(baseId), CupcakeMapper.getToppingById(toppingId), quantity));
     }
 
         private void removeOrderline (Context ctx){
@@ -83,12 +90,14 @@ public class OrderController {
             ctx.redirect("/shoppingcart.html");
         }
 
-        private void checkout (Context ctx){
+        private void checkout (Context ctx) throws DatabaseException {
             User user = ctx.sessionAttribute("user");
+            // Tilføj orderlines ud fra form params
+            addOrderline(ctx);
             List<Orderline> orderlines = ctx.sessionAttribute("orderlines");
 
             if (user == null) {
-                ctx.redirect("/login/order");
+                ctx.redirect("/login/checkout");
                 return;
             }
 
