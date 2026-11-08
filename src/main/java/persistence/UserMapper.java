@@ -26,8 +26,8 @@ public class UserMapper {
                 ResultSet resultSet = prepareStatement.executeQuery();
 
                 if (resultSet.next()) {
-                    int id = resultSet.getInt("id");
-                    String mail = resultSet.getString("mail");
+                    int id = resultSet.getInt("user_id");
+                    String mail = resultSet.getString("email");
                     String password = resultSet.getString("password");
 
                     User user = new User(id, mail, password);
@@ -43,8 +43,8 @@ public class UserMapper {
     }
 
     public User getUserByMail(String mail) throws DatabaseException {
-        String sql = "SELECT user_id, name, mail, password, phone_number " +
-                "FROM users WHERE mail = ?";
+        String sql = "SELECT user_id, name, email, password, phone_number " +
+                "FROM users WHERE email = ?";
 
         User user = null;
         try (Connection connection = connectionPool.getConnection();
@@ -57,7 +57,7 @@ public class UserMapper {
                 if (rs.next()) {
                     int id = rs.getInt("user_id");
                     String username = rs.getString("name");
-                    String email = rs.getString("mail");
+                    String email = rs.getString("email");
                     String password = rs.getString("password");
                     String phonenumber = rs.getString("phone_number");
                     user = new User(id, username, email, phonenumber, password);
@@ -84,7 +84,7 @@ public class UserMapper {
 
 
     public User createUser(User user) throws DatabaseException {
-        String sql = "INSERT INTO users (name, mail, password, phone_number) VALUES (?, ?, ?, ?)";
+        String sql = "INSERT INTO users (name, email, password, phone_number) VALUES (?, ?, ?, ?)";
         try (Connection connection = connectionPool.getConnection();
              PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             ps.setString(1, user.getName());
@@ -115,9 +115,9 @@ public class UserMapper {
                 ResultSet resultSet = prepareStatement.executeQuery()
         ) {
             while (resultSet.next()) {
-                String mail = resultSet.getString("mail");
+                String mail = resultSet.getString("email");
                 String password = resultSet.getString("password");
-                String phonenumber = resultSet.getString("phoneNumber");
+                String phonenumber = resultSet.getString("phone_number");
                 users.add(new User(mail, password, phonenumber));
             }
         } catch (SQLException e) {

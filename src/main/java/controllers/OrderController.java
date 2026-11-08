@@ -80,6 +80,8 @@ public class OrderController {
                 cupcakeMapper.getBaseById(baseId),
                 cupcakeMapper.getToppingById(toppingId),
                 quantity));
+
+        ctx.redirect("/cart/order");
     }
 
         private void removeOrderline (Context ctx){
@@ -97,8 +99,6 @@ public class OrderController {
 
         private void checkout (Context ctx) throws DatabaseException {
             User user = ctx.sessionAttribute("user");
-            // Tilføj orderlines ud fra form params
-            addOrderline(ctx);
             List<Orderline> orderlines = ctx.sessionAttribute("orderlines");
 
             if (user == null) {
@@ -116,7 +116,7 @@ public class OrderController {
 
                 // Tøm indkøbskurven
                 ctx.sessionAttribute("orderlines", new ArrayList<Orderline>());
-
+                ctx.result("Tak for bestillingen!");
                 //ctx.redirect("/....html"); - send brugeren til ordrebekræftelsen eller bare en lille tekst??
 
             } catch (DatabaseException e) {
