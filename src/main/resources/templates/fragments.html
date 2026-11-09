@@ -12,7 +12,7 @@
     <nav class="main-nav">
         <a href="/frontpage.html">Byg din egen</a>
         <a href="/cupcakes.html">Cupcakes</a>
-        <a href="/admin.html" th:if="${session.user != null and session.user.admin}">Admin</a>
+        <a href="/admin.html" th:if="${session.user != null and session.user.admin}" >Admin</a>
         <a href="#">Kontakt</a>
     </nav>
 
