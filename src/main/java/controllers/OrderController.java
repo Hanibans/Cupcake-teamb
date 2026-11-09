@@ -29,6 +29,8 @@ public class OrderController {
         config.routes.post("/orderline/add", ctx -> addOrderline(ctx));
         config.routes.post("/orderline/remove", ctx -> removeOrderline(ctx));
         config.routes.post("/order/checkout", ctx -> checkout(ctx));
+        config.routes.get("/admin", ctx -> showAllOrders(ctx));
+        config.routes.get("/admin/orders", ctx -> showOrder(ctx));
 
         // Ny route til at teste betalingslogik
         config.routes.get("/cart/order", ctx -> checkout(ctx));
@@ -101,5 +103,45 @@ public class OrderController {
             ctx.status(500);
             ctx.result("Der opstod en fejl ved oprettelse af ordren.");
         }
+    }
+
+    private void showAllOrders(Context ctx) throws DatabaseException {
+        User user = ctx.sessionAttribute("user");
+
+        if (user == null || !user.isAdmin()) {
+            ctx.status(403).result("Adgang nægtet");
+            return;
+        }
+
+        List<Order> orders = orderService.getAllOrders();
+
+        ctx.attribute("orders", orders);
+        ctx.attribute("selectedOrder", null);
+
+        ctx.render("admin.html");
+    }
+
+    private void showOrder(Context ctx) throws DatabaseException {
+        User user = ctx.sessionAttribute("user");
+
+        if (user == null || !user.isAdmin()) {
+            ctx.status(403).result("Adgang nægtet");
+            return;
+        }
+
+        int orderId = Integer.parseInt(ctx.queryParam("orderId"));
+
+        List<Order> orders = orderService.getAllOrders();
+        Order selectedOrder = orderService.getOrderById(orderId);
+
+        if (selectedOrder == null) {
+            ctx.status(404).result("Ordren blev ikke fundet.");
+            return;
+        }
+
+        ctx.attribute("orders", orders);
+        ctx.attribute("selectedOrder", selectedOrder);
+
+        ctx.render("admin.html");
     }
 }

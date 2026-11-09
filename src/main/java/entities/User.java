@@ -54,6 +54,15 @@ public class User {
         this.accountBalance = accountBalance;
     }
 
+    public User(int userId, String name, String email, String phoneNumber, int accountBalance, boolean isAdmin) {
+        this.userId = userId;
+        this.name = name;
+        this.email = email;
+        this.phoneNumber = phoneNumber;
+        this.accountBalance = accountBalance;
+        this.isAdmin = isAdmin;
+    }
+
     public int getUserId() {
         return userId;
     }

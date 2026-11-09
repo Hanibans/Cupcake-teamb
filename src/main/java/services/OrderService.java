@@ -86,4 +86,12 @@ public class OrderService {
     public void removeOrderline(List<Orderline> orderlines, Orderline orderline) {
         orderlines.remove(orderline);
     }
+
+    public List<Order> getAllOrders() throws DatabaseException {
+        return orderMapper.getAllOrders();
+    }
+
+    public Order getOrderById(int orderId) throws DatabaseException {
+        return orderMapper.getOrderById(orderId);
+    }
 }
