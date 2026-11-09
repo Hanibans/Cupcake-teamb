@@ -20,11 +20,11 @@
             <div class="thumb">CC</div>
             <div class="info">
                 <h3 th:text="${cupcake.cupcakeBase.flavor}"></h3>
-                <p class="product-desc">36,– pr. stk.</p>
+                <p class="product-desc" th:text="${cupcake.cupcakeBase.price + ',– pr. stk.'}"></p>
             </div>
             <div class="qty">
                 <button type="button" class="qty-btn">−</button>
-                <span>2</span>
+                <span th:text="${cupcake.quantity}"></span>
                 <button type="button" class="qty-btn">+</button>
             </div>
         </div>
