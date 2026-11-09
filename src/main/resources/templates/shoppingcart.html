@@ -19,8 +19,8 @@
         <div class="cart-item" th:each="cupcake : ${cart}">
             <div class="thumb">CC</div>
             <div class="info">
-                <h3 th:text="${cupcake.cupcakeBase.flavor}"></h3>
-                <p class="product-desc" th:text="${cupcake.cupcakeBase.price + ',– pr. stk.'}"></p>
+                <h3 th:text="${cupcake.cupcakeBase.flavor + '-' + cupcake.cupcakeTopping.flavor}"></h3>
+                <p class="product-desc" th:text="${cupcake.cupcakeBase.price + cupcake.cupcakeTopping.price + ',– pr. stk.'}"></p>
             </div>
             <div class="qty">
                 <button type="button" class="qty-btn">−</button>
