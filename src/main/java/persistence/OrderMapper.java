@@ -36,7 +36,7 @@ public class OrderMapper {
 
             ps.setInt(1, user.getUserId());
             ps.setTimestamp(2, Timestamp.valueOf(order.getDate()));
-            ps.setInt(3, order.getPrice());
+            ps.setInt(3, order.getTotalPrice());
             ps.setString(4, order.getOrderStatus());
 
             ps.executeUpdate();

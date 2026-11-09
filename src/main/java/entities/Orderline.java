@@ -58,9 +58,7 @@ public class Orderline {
         orderlines.add(orderline);
     }
 
-    public int calculateOrderlinePrice(){
-        return (cupcakeBase.getPrice() + cupcakeTopping.getPrice())
-                * getQuantity();
-
+    public int getLinePrice(){
+        return (cupcakeBase.getPrice() + cupcakeTopping.getPrice()) * quantity;
     }
 }

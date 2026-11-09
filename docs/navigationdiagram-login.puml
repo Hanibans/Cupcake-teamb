@@ -1,0 +1,49 @@
+@startuml
+
+title Copenhagen Cupcakes - Login og registrering
+
+start
+
+:Vis forside;
+
+if (Har brugeren en konto?) then (Ja)
+
+    :Vis login;
+
+else (Nej)
+
+    :Vis registreringsside;
+    :Bruger indtaster oplysninger;
+
+    if (Er oplysningerne gyldige?) then (Ja)
+        :Opret bruger;
+        :Vis login;
+    else (Nej)
+        :Vis fejlmeddelelse;
+        stop
+    endif
+
+endif
+
+:Bruger indtaster email og adgangskode;
+
+while (Er loginoplysningerne ugyldige?) is (Ja)
+    :Vis fejlmeddelelse;
+    :Bruger indtaster oplysninger igen;
+endwhile (Nej)
+
+:Login gennemført;
+
+if (Er brugeren administrator?) then (Ja)
+
+    :Vis Admin Dashboard;
+
+else (Nej)
+
+    :Vis Cupcake Shop;
+
+endif
+
+stop
+
+@enduml

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="da">
+<html lang="da" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,30 +8,7 @@
 </head>
 <body>
 
-<header class="site-header">
-    <a href="frontpage.html" class="logo">Copenhagen <span>Cupcakes</span><small>CUPCAKE BAKERY</small></a>
-
-    <nav class="main-nav">
-        <a href="frontpage.html">Byg din egen</a>
-        <a href="cupcakes.html">Cupcakes</a>
-        <a href="admin.html">Admin</a>
-        <a href="#">Kontakt</a>
-    </nav>
-
-    <div class="header-right">
-        <a href="login.html" class="login-link">Log ind</a>
-        <a href="shoppingcart.html" class="cart-button">Kurv</a>
-
-        <details class="mobile-menu">
-            <summary>Menu</summary>
-            <a href="frontpage.html">Byg din egen</a>
-            <a href="cupcakes.html">Cupcakes</a>
-            <a href="admin.html">Admin</a>
-            <a href="#">Kontakt</a>
-            <a href="login.html">Log ind</a>
-        </details>
-    </div>
-</header>
+<header th:replace="~{fragments :: header}"></header>
 
 <main>
     <!-- Billedet med tekst øverst på siden -->
@@ -53,32 +30,31 @@
             </p>
         </div>
 
-        <form class="builder">
+        <form class="builder" action="/orderline/add" method="post">
             <div class="field">
-                <label for="base">01 Bund</label>
-                <select id="base" name="base">
-                    <option>Vanilje</option>
-                    <option>Chokolade</option>
-                    <option>Gulerod</option>
+                <label for="baseId">01 Bund</label>
+                <select id="baseId" name="baseId">
+                    <option th:each="base : ${bases}"
+                            th:value="${base.cupcakeId}"
+                            th:text="${base.flavor}">Bund</option>
                 </select>
             </div>
 
             <div class="field">
-                <label for="topping">02 Topping</label>
-                <select id="topping" name="topping">
-                    <option>Jordbærcreme</option>
-                    <option>Smørcreme</option>
-                    <option>Vaniljefrosting</option>
-                    <option>Chokoladefrosting</option>
+                <label for="toppingId">02 Topping</label>
+                <select id="toppingId" name="toppingId">
+                    <option th:each="topping : ${toppings}"
+                            th:value="${topping.cupcakeId}"
+                            th:text="${topping.flavor}">Topping</option>
                 </select>
             </div>
 
             <div class="field">
-                <label for="antal">03 Antal</label>
-                <select id="antal" name="antal">
-                    <option>1 stk.</option>
-                    <option>6 stk.</option>
-                    <option>12 stk.</option>
+                <label for="quantity">03 Antal</label>
+                <select id="quantity" name="quantity">
+                    <option value="1">1 stk.</option>
+                    <option value="6">6 stk.</option>
+                    <option value="12">12 stk.</option>
                 </select>
             </div>
 
@@ -87,11 +63,7 @@
     </section>
 </main>
 
-<footer class="site-footer">
-    <div class="logo">Copenhagen <span>Cupcakes</span></div>
-    <p>Frederiksberg · København</p>
-    <p>Man–fre 10–17 · Lør 10–15</p>
-</footer>
+<footer th:replace="~{fragments :: footer}"></footer>
 
 </body>
 </html>

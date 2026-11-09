@@ -9,20 +9,20 @@ public class Order {
 
     private int orderId;
     private LocalDateTime Date;
-    private int Price;
+    private int totalPrice;
     private String orderStatus;
     private List<Orderline> orderlines = new ArrayList<>();
 
-    public Order(int orderId, LocalDateTime date, int price, String orderStatus) {
+    public Order(int orderId, LocalDateTime date, int totalPrice, String orderStatus) {
         this.orderId = orderId;
         Date = date;
-        Price = price;
+        totalPrice = totalPrice;
         this.orderStatus = orderStatus;
     }
 
-    public Order(LocalDateTime date, int price, String orderStatus) {
+    public Order(LocalDateTime date, int totalPrice, String orderStatus) {
         Date = date;
-        Price = price;
+        this.totalPrice = totalPrice;
         this.orderStatus = orderStatus;
     }
 
@@ -42,12 +42,12 @@ public class Order {
         Date = date;
     }
 
-    public int getPrice() {
-        return Price;
+    public int getTotalPrice(){
+        return totalPrice;
     }
 
-    public void setPrice(int price) {
-        Price = price;
+    public void setTotalPrice(int totalPrice) {
+        this.totalPrice = totalPrice;
     }
 
     public String getOrderStatus() {
@@ -60,6 +60,7 @@ public class Order {
 
     public void addOrderline(Orderline orderline) {
         orderlines.add(orderline);
+        totalPrice += orderline.getLinePrice();
     }
 
     public void removeOrderline(Orderline orderline) {
@@ -69,5 +70,7 @@ public class Order {
     public List<Orderline> getOrderlines() {
         return orderlines;
     }
+
+
 
 }
