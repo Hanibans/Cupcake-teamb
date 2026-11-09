@@ -18,7 +18,7 @@ public class CartController {
 
     public void setRoutes(JavalinConfig config) {
         config.routes.post("/cart", ctx -> displayCart(ctx));
-
+        config.routes.get("/shoppingcart.html", ctx -> renderShoppingcart(ctx));
     }
 
     public void displayCart(Context ctx){
@@ -38,7 +38,7 @@ public class CartController {
         ctx.redirect("/cart/order");
     }
 
-    public void renderShoppingcart(Context ctx){
+    public static void renderShoppingcart(Context ctx){
         Map<String, Object> cart = new HashMap<>();
         cart.put("cart", ctx.sessionAttribute("orderlines"));
         ctx.render("shoppingcart.html", cart);

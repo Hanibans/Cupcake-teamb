@@ -31,7 +31,7 @@ public class UserController {
             config.routes.get("/login.html", ctx -> ctx.render("login.html"));
             config.routes.get("/register.html", ctx -> ctx.render("register.html"));
             config.routes.get("/cupcakes.html", ctx -> ctx.render("cupcakes.html"));
-            config.routes.get("/shoppingcart.html", ctx -> ctx.render("shoppingcart.html"));
+
             config.routes.get("/payment.html", ctx -> ctx.render("payment.html"));
             config.routes.get("/profile.html", ctx -> ctx.render("profile.html"));
             config.routes.get("/admin.html", ctx -> ctx.render("admin.html"));
@@ -98,9 +98,5 @@ public class UserController {
         model.put("bases", cupcakeMapper.getAllBases());
         model.put("toppings", cupcakeMapper.getAllToppings());
         ctx.render("frontpage.html", model);
-
-
-
-
-}
+    }
 }

@@ -52,7 +52,7 @@ public class OrderController {
                 cupcakeMapper.getToppingById(toppingId),
                 quantity));
 
-        ctx.redirect("/cart/order");
+        ctx.redirect("/shoppingcart.html");
     }
 
     private void removeOrderline (Context ctx){
