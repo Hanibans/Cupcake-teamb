@@ -15,6 +15,8 @@
         <p class="eyebrow">Din bestilling</p>
         <h1>Din kurv</h1>
 
+        <h2 th:if="${cart.isEmpty()}">Åh nej, din kurv er tom!</h2>
+
         <!-- Én række for hver cupcake i kurven. Det er her, Thymeleaf senere skal lave en løkke. -->
         <div class="cart-item" th:each="cupcake : ${cart}">
             <div class="thumb">CC</div>

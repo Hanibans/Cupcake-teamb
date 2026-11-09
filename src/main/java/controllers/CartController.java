@@ -7,6 +7,7 @@ import io.javalin.config.JavalinConfig;
 import io.javalin.http.Context;
 import persistence.ConnectionPool;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -41,6 +42,10 @@ public class CartController {
     }
 
     public void renderShoppingcart(Context ctx){
+        if (ctx.sessionAttribute("orderlines") == null){
+            List<Orderline> orderlines = new ArrayList<Orderline>();
+            ctx.sessionAttribute("orderlines", orderlines);
+        }
         List<Orderline> orderlines = ctx.sessionAttribute("orderlines");
 
         Map<String, Object> cart = new HashMap<>();
