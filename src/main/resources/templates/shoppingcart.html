@@ -16,10 +16,10 @@
         <h1>Din kurv</h1>
 
         <!-- Én række for hver cupcake i kurven. Det er her, Thymeleaf senere skal lave en løkke. -->
-        <div class="cart-item">
+        <div class="cart-item" th:each="cupcake : ${cart}">
             <div class="thumb">CC</div>
             <div class="info">
-                <h3>Citronkys</h3>
+                <h3 th:text="${cupcake.cupcakeBase.flavor}"></h3>
                 <p class="product-desc">36,– pr. stk.</p>
             </div>
             <div class="qty">
@@ -29,31 +29,6 @@
             </div>
         </div>
 
-        <div class="cart-item">
-            <div class="thumb">CC</div>
-            <div class="info">
-                <h3>Choko crunch</h3>
-                <p class="product-desc">42,– pr. stk.</p>
-            </div>
-            <div class="qty">
-                <button type="button" class="qty-btn">−</button>
-                <span>1</span>
-                <button type="button" class="qty-btn">+</button>
-            </div>
-        </div>
-
-        <div class="cart-item">
-            <div class="thumb">CC</div>
-            <div class="info">
-                <h3>Vaniljesky</h3>
-                <p class="product-desc">34,– pr. stk.</p>
-            </div>
-            <div class="qty">
-                <button type="button" class="qty-btn">−</button>
-                <span>1</span>
-                <button type="button" class="qty-btn">+</button>
-            </div>
-        </div>
 
         <!-- Samlet pris -->
         <div class="summary-row" style="margin-top: 16px;">
