@@ -1,9 +1,13 @@
 package controllers;
 import entities.User;
+import exceptions.DatabaseException;
 import io.javalin.config.ContextResolverConfig;
 import io.javalin.config.JavalinConfig;
 import io.javalin.http.Context;
 import persistence.ConnectionPool;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class CartController {
     ConnectionPool connectionPool;
@@ -32,5 +36,11 @@ public class CartController {
          */
 
         ctx.redirect("/cart/order");
+    }
+
+    public void renderShoppingcart(Context ctx){
+        Map<String, Object> cart = new HashMap<>();
+        cart.put("cart", ctx.sessionAttribute("orderlines"));
+        ctx.render("shoppingcart.html", cart);
     }
 }
