@@ -115,6 +115,8 @@ public class OrderController {
 
         List<Order> orders = orderService.getAllOrders();
 
+        System.out.println("Antal ordrer hentet: " + orders.size());
+
         ctx.attribute("orders", orders);
         ctx.attribute("selectedOrder", null);
 
@@ -132,11 +134,16 @@ public class OrderController {
         int orderId = Integer.parseInt(ctx.queryParam("orderId"));
 
         List<Order> orders = orderService.getAllOrders();
-        Order selectedOrder = orderService.getOrderById(orderId);
 
-        if (selectedOrder == null) {
-            ctx.status(404).result("Ordren blev ikke fundet.");
-            return;
+        Integer selectedOrderId = ctx.sessionAttribute("selectedOrderId");
+
+        Order selectedOrder = null;
+
+        if (selectedOrderId == null || selectedOrderId != orderId) {
+            selectedOrder = orderService.getOrderById(orderId);
+            ctx.sessionAttribute("selectedOrderId", orderId);
+        } else {
+            ctx.sessionAttribute("selectedOrderId", null);
         }
 
         ctx.attribute("orders", orders);

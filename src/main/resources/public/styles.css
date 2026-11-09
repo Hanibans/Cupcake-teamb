@@ -576,3 +576,48 @@ th, td {
         padding: 30px 20px;
     }
 }
+
+.admin-order-card {
+    background-color: var(--bg-mint);
+    border: 1px solid var(--green);
+    border-radius: 16px;
+    padding: 20px;
+    margin: 10px 0;
+}
+
+.admin-order-card-header {
+    margin-bottom: 15px;
+}
+
+.admin-order-card-header h3 {
+    margin: 0 0 5px;
+    color: var(--plum);
+}
+
+.admin-order-card-header span {
+    color: var(--pink);
+    font-size: 0.85rem;
+    font-weight: 700;
+}
+
+.admin-order-card table {
+    background-color: var(--white);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.admin-order-card th {
+    background-color: var(--salmon);
+    color: var(--plum);
+}
+
+.admin-order-card td {
+    background-color: var(--white);
+}
+
+.admin-order-link {
+    color: var(--pink);
+    font-weight: 700;
+    text-decoration: none;
+    transition: color 0.2s ease;
+}

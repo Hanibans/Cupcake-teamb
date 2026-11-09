@@ -36,7 +36,7 @@ public class UserController {
             config.routes.get("/profile.html", ctx -> ctx.render("profile.html"));
             config.routes.get("/admin.html", ctx -> {
                 if (!requireAdmin(ctx)) return;
-                ctx.render("admin.html"); });
+                ctx.redirect("/admin"); });
 
             // form handling
             config.routes.post("/createuser", ctx -> createUser(ctx));

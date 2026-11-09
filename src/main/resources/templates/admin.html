@@ -27,41 +27,50 @@
                 <th>Pris</th>
                 <th>Detaljer</th>
             </tr>
-            <tr th:each="order : ${orders}">
-                <td th:text="${'#' + order.orderId}"></td>
-                <td th:text="${order.date}"></td>
-                <td th:text="${order.orderStatus}"></td>
-                <td th:text="${order.payment.paid ? 'Betalt' : 'Ubetalt'}"></td>
-                <td th:text="${order.user.email}"></td>
-                <td th:text="${order.totalPrice + ' kr.'}"></td>
-                <td>
-                    <a th:href="@{/admin/orders(orderId=${order.orderId})}">
-                        Se ordre
-                    </a>
-                </td>
-            </tr>
+            <th:block th:each="order : ${orders}">
+                <tr>
+                    <td th:text="${'#' + order.orderId}"></td>
+                    <td th:text="${#temporals.format(order.date, 'dd-MM-yyyy HH:mm')}"></td>
+                    <td th:text="${order.orderStatus}"></td>
+                    <td th:text="${order.payment.paid ? 'Betalt' : 'Ubetalt'}"></td>
+                    <td th:text="${order.user.email}"></td>
+                    <td th:text="${order.totalPrice + ' kr.'}"></td>
+                    <td>
+                        <a class="admin-order-link"
+                           th:href="@{/admin/orders(orderId=${order.orderId})}">
+                            Se ordre
+                        </a>
+                    </td>
+                </tr>
+
+                <tr th:if="${selectedOrder != null and selectedOrder.orderId == order.orderId}">
+                    <td colspan="7">
+                        <div class="admin-order-card">
+
+                            <div class="admin-order-card-header">
+                                <h3 th:text="${'Detaljer for ordre #' + selectedOrder.orderId}"></h3>
+                                <span>Bestilte cupcakes</span>
+                            </div>
+
+                            <table>
+                                <tr>
+                                    <th>Bund</th>
+                                    <th>Top</th>
+                                    <th>Antal</th>
+                                </tr>
+
+                                <tr th:each="orderline : ${selectedOrder.orderlines}">
+                                    <td th:text="${orderline.cupcakeBase.flavor}"></td>
+                                    <td th:text="${orderline.cupcakeTopping.flavor}"></td>
+                                    <td th:text="${orderline.quantity}"></td>
+                                </tr>
+                            </table>
+
+                        </div>
+                    </td>
+                </tr>
+            </th:block>
         </table>
-    </div>
-
-    <!-- Detaljer om valgt ordre (US-5) -->
-    <div th:if="${selectedOrder != null}">
-
-        <h2 th:text="${'Ordre #' + selectedOrder.orderId}"></h2>
-
-        <table>
-            <tr>
-                <th>Cupcake Bund</th>
-                <th>Cupcake Top</th>
-                <th>Antal</th>
-            </tr>
-
-            <tr th:each="orderline : ${selectedOrder.orderlines}">
-                <td th:text="${orderline.cupcakeBase.flavor}"></td>
-                <td th:text="${orderline.cupcakeTopping.flavor}"></td>
-                <td th:text="${orderline.quantity}"></td>
-            </tr>
-        </table>
-
     </div>
 
     <!-- Kundeoversigt (US-6) -->
