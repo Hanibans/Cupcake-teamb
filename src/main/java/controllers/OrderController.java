@@ -84,13 +84,18 @@ public class OrderController {
         }
 
         try {
-            orderService.addOrder(user, orderlines);
+            if (orderService.addOrder(user, orderlines) == 1){
+                // Tøm indkøbskurven
+                ctx.sessionAttribute("orderlines", new ArrayList<Orderline>());
 
-            // Tøm indkøbskurven
-            ctx.sessionAttribute("orderlines", new ArrayList<Orderline>());
+                //ctx.redirect("/....html"); - send brugeren til ordrebekræftelsen eller bare en lille tekst??
+                ctx.result("Tak for bestillingen!");
+            }
+            else {
+                ctx.result("Ikke nok penge på saldoen. Tilføj et beløb og prøv igen");
+                ctx.redirect("/frontpage.html");
+            }
 
-            //ctx.redirect("/....html"); - send brugeren til ordrebekræftelsen eller bare en lille tekst??
-            ctx.result("Tak for bestillingen!");
 
         } catch (DatabaseException e) {
             ctx.status(500);

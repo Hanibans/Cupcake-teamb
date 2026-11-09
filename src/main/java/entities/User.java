@@ -9,7 +9,7 @@ public class User {
     private String email;
     private String password;
     private String phoneNumber;
-    private double accountBalance = 100.0;
+    private int accountBalance = 100;
     private boolean isAdmin;
     private List<Order> orders = new ArrayList<>();
 
@@ -85,11 +85,11 @@ public class User {
         this.phoneNumber = phoneNumber;
     }
 
-    public double getAccountBalance() {
+    public int getAccountBalance() {
         return accountBalance;
     }
 
-    public void setAccountBalance(double accountBalance) {
+    public void setAccountBalance(int accountBalance) {
         this.accountBalance = accountBalance;
     }
 

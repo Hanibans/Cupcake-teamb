@@ -188,4 +188,26 @@ public class UserMapper {
         }
     }
 
+    public void updateAccountBalance(int userId, int newBalance)
+            throws DatabaseException {
+        String sql = "UPDATE users SET account_balance = ? WHERE user_id = ?";
+
+        try (Connection connection = connectionPool.getConnection();
+             PreparedStatement ps = connection.prepareStatement(sql)) {
+
+            ps.setInt(1, newBalance);
+            ps.setInt(2, userId);
+
+            int rowsUpdated = ps.executeUpdate();
+
+            if (rowsUpdated == 0) {
+                throw new DatabaseException("Brugeren blev ikke fundet.");
+            }
+
+        } catch (SQLException e) {
+            logger.error("Kunne ikke ændre konto saldoen", e);
+            throw new DatabaseException("Kunne ikke ændre konto saldoen.", e.getMessage());
+        }
+    }
+
 }
