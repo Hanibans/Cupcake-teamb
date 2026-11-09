@@ -1,0 +1,39 @@
+@startuml
+top to bottom direction
+hide empty description
+
+state "Forside" as Home
+state "Login" as Login
+state "Opret bruger" as Register
+state "Cupcake Shop" as Shop
+state "Indkøbskurv" as Cart
+state "Betalingsside" as Payment
+state "Ordrebekræftelse" as Confirmation
+state "Mine ordrer" as MyOrders
+state "Admin Dashboard" as Admin
+state "Administrer ordrer" as ManageOrders
+state "Se kunder" as Customers
+
+[*] --> Home
+
+Home --> Login : Log ind
+Home --> Register : Opret konto
+Home --> Shop : Se cupcakes
+
+Register --> Login : Konto oprettet
+
+Login --> Shop : Kunde logger ind
+Login --> Admin : Admin logger ind
+
+Shop --> Cart : Se indkøbskurv
+Cart --> Shop : Fortsæt med at handle
+Cart --> Payment : Betal for ordrer
+Payment --> Confirmation : Gennemfør køb
+
+Confirmation --> MyOrders : Se mine ordrer
+
+Shop --> MyOrders : Mine ordrer
+
+Admin --> ManageOrders : Administrer ordrer
+Admin --> Customers : Se kunder
+@enduml

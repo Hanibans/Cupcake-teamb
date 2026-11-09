@@ -26,8 +26,8 @@ public class UserMapper {
                 ResultSet resultSet = prepareStatement.executeQuery();
 
                 if (resultSet.next()) {
-                    int id = resultSet.getInt("id");
-                    String mail = resultSet.getString("mail");
+                    int id = resultSet.getInt("user_id");
+                    String mail = resultSet.getString("email");
                     String password = resultSet.getString("password");
 
                     User user = new User(id, mail, password);
@@ -43,8 +43,8 @@ public class UserMapper {
     }
 
     public User getUserByMail(String mail) throws DatabaseException {
-        String sql = "SELECT user_id, name, mail, password, phone_number " +
-                "FROM users WHERE mail = ?";
+        String sql = "SELECT user_id, name, email, password, phone_number, account_balance " +
+                "FROM users WHERE email = ?";
 
         User user = null;
         try (Connection connection = connectionPool.getConnection();
@@ -57,10 +57,11 @@ public class UserMapper {
                 if (rs.next()) {
                     int id = rs.getInt("user_id");
                     String username = rs.getString("name");
-                    String email = rs.getString("mail");
+                    String email = rs.getString("email");
                     String password = rs.getString("password");
-                    String phonenumber = rs.getString("phone_number");
-                    user = new User(id, username, email, phonenumber, password);
+                    String phoneNumber = rs.getString("phone_number");
+                    int accountBalance = rs.getInt("account_balance");
+                    user = new User(id, username, email, phoneNumber, password, accountBalance);
                     /*
                     User user = new User(
                             rs.getString("mail"),
@@ -84,7 +85,7 @@ public class UserMapper {
 
 
     public User createUser(User user) throws DatabaseException {
-        String sql = "INSERT INTO users (name, mail, password, phone_number) VALUES (?, ?, ?, ?)";
+        String sql = "INSERT INTO users (name, email, password, phone_number, account_balance) VALUES (?, ?, ?, ?, 100)";
         try (Connection connection = connectionPool.getConnection();
              PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             ps.setString(1, user.getName());
@@ -95,6 +96,7 @@ public class UserMapper {
             try (ResultSet rs = ps.getGeneratedKeys()) {
                 if (rs.next()) {
                     user.setUserId(rs.getInt("user_id"));
+                    user.setAccountBalance(100);
                 } else {
                     throw new DatabaseException("Brugeren kunne ikke oprettes");
                 }
@@ -115,9 +117,9 @@ public class UserMapper {
                 ResultSet resultSet = prepareStatement.executeQuery()
         ) {
             while (resultSet.next()) {
-                String mail = resultSet.getString("mail");
+                String mail = resultSet.getString("email");
                 String password = resultSet.getString("password");
-                String phonenumber = resultSet.getString("phoneNumber");
+                String phonenumber = resultSet.getString("phone_number");
                 users.add(new User(mail, password, phonenumber));
             }
         } catch (SQLException e) {
@@ -185,6 +187,28 @@ public class UserMapper {
         } catch (SQLException e) {
             logger.error("Kunne ikke ændre adgangskode", e);
             throw new DatabaseException("Kunne ikke ændre adgangskoden.", e.getMessage());
+        }
+    }
+
+    public void updateAccountBalance(int userId, int newBalance)
+            throws DatabaseException {
+        String sql = "UPDATE users SET account_balance = ? WHERE user_id = ?";
+
+        try (Connection connection = connectionPool.getConnection();
+             PreparedStatement ps = connection.prepareStatement(sql)) {
+
+            ps.setInt(1, newBalance);
+            ps.setInt(2, userId);
+
+            int rowsUpdated = ps.executeUpdate();
+
+            if (rowsUpdated == 0) {
+                throw new DatabaseException("Brugeren blev ikke fundet.");
+            }
+
+        } catch (SQLException e) {
+            logger.error("Kunne ikke ændre konto saldoen", e);
+            throw new DatabaseException("Kunne ikke ændre konto saldoen.", e.getMessage());
         }
     }
 

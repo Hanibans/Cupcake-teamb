@@ -9,7 +9,7 @@ public class User {
     private String email;
     private String password;
     private String phoneNumber;
-    private double accountBalance = 100.0;
+    private int accountBalance;
     private boolean isAdmin;
     private List<Order> orders = new ArrayList<>();
 
@@ -37,12 +37,21 @@ public class User {
         this.password = password;
     }
 
-    public User(int userID, String name, String email, String phoneNumber, String password) {
+    public User(int userId, String name, String email, String phoneNumber, String password) {
         this.userId = userId;
         this.name = name;
         this.email = email;
         this.phoneNumber = phoneNumber;
         this.password = password;
+    }
+
+    public User(int userId, String name, String email, String phoneNumber, String password, int accountBalance) {
+        this.userId = userId;
+        this.name = name;
+        this.email = email;
+        this.phoneNumber = phoneNumber;
+        this.password = password;
+        this.accountBalance = accountBalance;
     }
 
     public int getUserId() {
@@ -85,11 +94,11 @@ public class User {
         this.phoneNumber = phoneNumber;
     }
 
-    public double getAccountBalance() {
+    public int getAccountBalance() {
         return accountBalance;
     }
 
-    public void setAccountBalance(double accountBalance) {
+    public void setAccountBalance(int accountBalance) {
         this.accountBalance = accountBalance;
     }
 
