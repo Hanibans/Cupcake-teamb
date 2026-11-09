@@ -33,7 +33,7 @@
         <!-- Samlet pris -->
         <div class="summary-row" style="margin-top: 16px;">
             <span>Subtotal</span>
-            <strong>148,–</strong>
+            <strong th:text="${totalPrice + ',-'}"></strong>
         </div>
         <div class="summary-row">
             <span>Levering</span>
@@ -41,7 +41,7 @@
         </div>
         <div class="total-row">
             <span>I alt</span>
-            <span>148,–</span>
+            <span th:text="${totalPrice + ',-'}"></span>
         </div>
 
         <a href="payment.html" class="btn btn-full" style="margin-top: 24px;">Gå til checkout</a>

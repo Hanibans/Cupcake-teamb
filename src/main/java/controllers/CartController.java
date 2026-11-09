@@ -1,4 +1,5 @@
 package controllers;
+import entities.Orderline;
 import entities.User;
 import exceptions.DatabaseException;
 import io.javalin.config.ContextResolverConfig;
@@ -7,6 +8,7 @@ import io.javalin.http.Context;
 import persistence.ConnectionPool;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class CartController {
@@ -38,9 +40,19 @@ public class CartController {
         ctx.redirect("/cart/order");
     }
 
-    public static void renderShoppingcart(Context ctx){
+    public void renderShoppingcart(Context ctx){
+        List<Orderline> orderlines = ctx.sessionAttribute("orderlines");
+
         Map<String, Object> cart = new HashMap<>();
-        cart.put("cart", ctx.sessionAttribute("orderlines"));
+        cart.put("cart", orderlines);
+
+        int total = 0;
+        for(Orderline orderline : orderlines){
+            total += orderline.getLinePrice();
+        }
+        cart.put("totalPrice", total);
+
         ctx.render("shoppingcart.html", cart);
+
     }
 }
