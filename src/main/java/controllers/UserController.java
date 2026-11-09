@@ -34,7 +34,9 @@ public class UserController {
 
             config.routes.get("/payment.html", ctx -> ctx.render("payment.html"));
             config.routes.get("/profile.html", ctx -> ctx.render("profile.html"));
-            config.routes.get("/admin.html", ctx -> ctx.render("admin.html"));
+            config.routes.get("/admin.html", ctx -> {
+                if (!requireAdmin(ctx)) return;
+                ctx.render("admin.html"); });
 
             // form handling
             config.routes.post("/createuser", ctx -> createUser(ctx));
@@ -43,6 +45,7 @@ public class UserController {
             // redirects
             config.routes.get("/createuser", ctx -> ctx.redirect("/register.html"));
             config.routes.get("/login", ctx -> ctx.redirect("/login.html"));
+            config.routes.get("/logout", ctx -> logout(ctx));
 
             config.routes.get("/login/checkout", ctx -> ctx.render("logincheckout"));
             config.routes.post("/login/checkout", ctx -> loginCheckout(ctx));
@@ -79,6 +82,24 @@ public class UserController {
         }
     }
 
+    private boolean requireAdmin(Context ctx) {
+        User user = ctx.sessionAttribute("user");
+        if (user == null) {
+            ctx.redirect("/login.html");
+            return false;
+        }
+        if (!user.isAdmin()) {
+            ctx.redirect("/frontpage.html");
+            return false;
+        }
+        return true;
+    }
+
+    public void logout(Context ctx){
+        ctx.sessionAttribute("user", null);
+        ctx.redirect("/frontpage.html");
+    }
+
     public void loginCheckout(Context ctx) {
         String email = ctx.formParam("email");
         String password = ctx.formParam("password");
@@ -94,9 +115,16 @@ public class UserController {
 
 
     public void renderFrontpage(Context ctx) throws DatabaseException {
-        Map<String, Object> model = new HashMap<>();
-        model.put("bases", cupcakeMapper.getAllBases());
-        model.put("toppings", cupcakeMapper.getAllToppings());
-        ctx.render("frontpage.html", model);
+        try {
+            Map<String, Object> model = new HashMap<>();
+            model.put("user", ctx.sessionAttribute("user"));
+            model.put("bases", cupcakeMapper.getAllBases());
+            model.put("toppings", cupcakeMapper.getAllToppings());
+            ctx.render("frontpage.html", model);
+        } catch (DatabaseException e) {
+            ctx.status(400);
+            ctx.result("Kunne ikke finde cupcakes. "+ e.getMessage());
+        }
     }
+
 }
