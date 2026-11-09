@@ -37,8 +37,6 @@ public class UserController {
         config.routes.get("/shoppingcart.html", ctx -> ctx.render("shoppingcart.html"));
         config.routes.get("/payment.html", ctx -> ctx.render("payment.html"));
         config.routes.get("/profile.html", ctx -> ctx.render("profile.html"));
-
-        // admin (US-6)
         config.routes.get("/admin.html", ctx -> renderAdmin(ctx));
 
         // form handling
@@ -103,10 +101,14 @@ public class UserController {
     // US-6: liste over kunder (navn + email), seneste ordre øverst
     public void renderAdmin(Context ctx) throws DatabaseException {
         if (!requireAdmin(ctx)) return;
-        Map<String, Object> model = new HashMap<>();
-        model.put("user", ctx.sessionAttribute("user"));
-        model.put("customers", userMapper.getAllCustomers());
-        ctx.render("admin.html", model);
+        try {
+            Map<String, Object> model = new HashMap<>();
+            model.put("user", ctx.sessionAttribute("user"));
+            model.put("customers", userMapper.getAllCustomers());
+            ctx.render("admin.html", model);
+        } catch (DatabaseException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public void logout(Context ctx){
