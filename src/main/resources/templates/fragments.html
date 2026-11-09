@@ -1,32 +1,36 @@
 <!DOCTYPE html>
-<html lang="en"  xmlns:th="http://www.thymeleaf.org">
+<html lang="da" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Fragments</title>
 </head>
 <body>
 
 <header class="site-header" th:fragment="header">
-    <a href="frontpage.html" class="logo">Copenhagen <span>Cupcakes</span><small>CUPCAKE BAKERY</small></a>
+    <a href="/frontpage.html" class="logo">Copenhagen <span>Cupcakes</span><small>CUPCAKE BAKERY</small></a>
 
     <nav class="main-nav">
-    <a href="frontpage.html">Byg din egen</a>
-    <a href="cupcakes.html">Cupcakes</a>
-    <a href="admin.html">Admin</a>
-    <a href="#">Kontakt</a>
+        <a href="/frontpage.html">Byg din egen</a>
+        <a href="/cupcakes.html">Cupcakes</a>
+        <a href="/admin.html" th:if="${session.user != null and session.user.admin}">Admin</a>
+        <a href="#">Kontakt</a>
     </nav>
 
     <div class="header-right">
-        <a href="login.html" class="login-link">Log ind</a>
-        <a href="shoppingcart.html" class="cart-button">Kurv</a>
+        <a href="/login.html" class="login-link" th:if="${session.user == null}">Log ind</a>
+        <a href="/profile.html" class="login-link" th:if="${session.user != null}" th:text="${session.user.email}">email</a>
+        <a href="/logout" class="login-link" th:if="${session.user != null}">Log ud</a>
+        <a href="/shoppingcart.html" class="cart-button">Kurv</a>
 
         <details class="mobile-menu">
             <summary>Menu</summary>
-            <a href="frontpage.html">Byg din egen</a>
-            <a href="cupcakes.html">Cupcakes</a>
-            <a href="admin.html">Admin</a>
+            <a href="/frontpage.html">Byg din egen</a>
+            <a href="/cupcakes.html">Cupcakes</a>
+            <a href="/admin.html" th:if="${session.user != null and session.user.admin}">Admin</a>
             <a href="#">Kontakt</a>
-            <a href="login.html">Log ind</a>
+            <a href="/login.html" th:if="${session.user == null}">Log ind</a>
+            <a href="/profile.html" th:if="${session.user != null}" th:text="${session.user.email}">email</a>
+            <a href="/logout" th:if="${session.user != null}">Log ud</a>
         </details>
     </div>
 </header>
