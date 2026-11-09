@@ -594,12 +594,6 @@ th, td {
     color: var(--plum);
 }
 
-.admin-order-card-header span {
-    color: var(--pink);
-    font-size: 0.85rem;
-    font-weight: 700;
-}
-
 .admin-order-card table {
     background-color: var(--white);
     border-radius: 10px;
