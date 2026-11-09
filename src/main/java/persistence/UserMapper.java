@@ -43,7 +43,7 @@ public class UserMapper {
     }
 
     public User getUserByMail(String mail) throws DatabaseException {
-        String sql = "SELECT user_id, name, email, password, phone_number " +
+        String sql = "SELECT user_id, name, email, password, phone_number, account_balance " +
                 "FROM users WHERE email = ?";
 
         User user = null;
@@ -59,8 +59,9 @@ public class UserMapper {
                     String username = rs.getString("name");
                     String email = rs.getString("email");
                     String password = rs.getString("password");
-                    String phonenumber = rs.getString("phone_number");
-                    user = new User(id, username, email, phonenumber, password);
+                    String phoneNumber = rs.getString("phone_number");
+                    int accountBalance = rs.getInt("account_balance");
+                    user = new User(id, username, email, phoneNumber, password, accountBalance);
                     /*
                     User user = new User(
                             rs.getString("mail"),
@@ -84,7 +85,7 @@ public class UserMapper {
 
 
     public User createUser(User user) throws DatabaseException {
-        String sql = "INSERT INTO users (name, email, password, phone_number) VALUES (?, ?, ?, ?)";
+        String sql = "INSERT INTO users (name, email, password, phone_number, account_balance) VALUES (?, ?, ?, ?, 100)";
         try (Connection connection = connectionPool.getConnection();
              PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             ps.setString(1, user.getName());
@@ -95,6 +96,7 @@ public class UserMapper {
             try (ResultSet rs = ps.getGeneratedKeys()) {
                 if (rs.next()) {
                     user.setUserId(rs.getInt("user_id"));
+                    user.setAccountBalance(100);
                 } else {
                     throw new DatabaseException("Brugeren kunne ikke oprettes");
                 }

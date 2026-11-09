@@ -57,7 +57,7 @@ public class UserController {
 
         try {
             User user = userService.createUser(name, email, phoneNumber, password);
-            ctx.sessionAttribute("user", user.getUserId());
+            ctx.sessionAttribute("user", user);
             ctx.redirect("/frontpage.html");
         } catch (IllegalUserDataException e) {
             ctx.status(404);
