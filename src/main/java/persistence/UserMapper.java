@@ -43,7 +43,7 @@ public class UserMapper {
     }
 
     public User getUserByMail(String mail) throws DatabaseException {
-        String sql = "SELECT user_id, name, email, password, phone_number, account_balance " +
+        String sql = "SELECT user_id, is_admin, name, email, password, phone_number, account_balance " +
                 "FROM users WHERE email = ?";
 
         User user = null;
@@ -56,12 +56,15 @@ public class UserMapper {
 
                 if (rs.next()) {
                     int id = rs.getInt("user_id");
+                    boolean isAdmin = rs.getBoolean("is_admin");
                     String username = rs.getString("name");
                     String email = rs.getString("email");
                     String password = rs.getString("password");
                     String phoneNumber = rs.getString("phone_number");
                     int accountBalance = rs.getInt("account_balance");
                     user = new User(id, username, email, phoneNumber, password, accountBalance);
+                    user.setAdmin(isAdmin);
+
                     /*
                     User user = new User(
                             rs.getString("mail"),
