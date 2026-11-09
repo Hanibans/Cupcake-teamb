@@ -11,47 +11,50 @@ import persistence.ConnectionPool;
 import persistence.UserMapper;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class UserController {
     private final ConnectionPool connectionPool;
     private final UserService userService;
     private final CupcakeMapper cupcakeMapper;
+    private final UserMapper userMapper;
 
     public UserController(ConnectionPool connectionPool) {
         this.connectionPool = connectionPool;
         this.userService = new UserService(connectionPool);
         this.cupcakeMapper = new CupcakeMapper(connectionPool);
+        this.userMapper = new UserMapper(connectionPool);
     }
 
     public void setRoutes(JavalinConfig config) {
-            // pages
-            config.routes.get("/", ctx -> renderFrontpage(ctx));
-            config.routes.get("/frontpage.html", ctx -> renderFrontpage(ctx));
-            config.routes.get("/login.html", ctx -> ctx.render("login.html"));
-            config.routes.get("/register.html", ctx -> ctx.render("register.html"));
-            config.routes.get("/cupcakes.html", ctx -> ctx.render("cupcakes.html"));
-            config.routes.get("/shoppingcart.html", ctx -> ctx.render("shoppingcart.html"));
-            config.routes.get("/payment.html", ctx -> ctx.render("payment.html"));
-            config.routes.get("/profile.html", ctx -> ctx.render("profile.html"));
-            config.routes.get("/admin.html", ctx -> {
-                if (!requireAdmin(ctx)) return;
-                ctx.render("admin.html"); });
+        // pages
+        config.routes.get("/", ctx -> renderFrontpage(ctx));
+        config.routes.get("/frontpage.html", ctx -> renderFrontpage(ctx));
+        config.routes.get("/login.html", ctx -> ctx.render("login.html"));
+        config.routes.get("/register.html", ctx -> ctx.render("register.html"));
+        config.routes.get("/cupcakes.html", ctx -> ctx.render("cupcakes.html"));
+        config.routes.get("/shoppingcart.html", ctx -> ctx.render("shoppingcart.html"));
+        config.routes.get("/payment.html", ctx -> ctx.render("payment.html"));
+        config.routes.get("/profile.html", ctx -> ctx.render("profile.html"));
 
-            // form handling
-            config.routes.post("/createuser", ctx -> createUser(ctx));
-            config.routes.post("/login", ctx -> login(ctx));
+        // admin (US-6)
+        config.routes.get("/admin.html", ctx -> renderAdmin(ctx));
+
+        // form handling
+        config.routes.post("/createuser", ctx -> createUser(ctx));
+        config.routes.post("/login", ctx -> login(ctx));
 
 
-            // redirects
-            config.routes.get("/createuser", ctx -> ctx.redirect("/register.html"));
-            config.routes.get("/login", ctx -> ctx.redirect("/login.html"));
-            config.routes.get("/logout", ctx -> logout(ctx));
+        // redirects
+        config.routes.get("/createuser", ctx -> ctx.redirect("/register.html"));
+        config.routes.get("/login", ctx -> ctx.redirect("/login.html"));
+        config.routes.get("/logout", ctx -> logout(ctx));
 
-            config.routes.get("/login/checkout", ctx -> ctx.render("logincheckout"));
-            config.routes.post("/login/checkout", ctx -> loginCheckout(ctx));
+        config.routes.get("/login/checkout", ctx -> ctx.render("logincheckout"));
+        config.routes.post("/login/checkout", ctx -> loginCheckout(ctx));
 
-        }
+    }
 
     public void createUser(Context ctx) {
         String name = ctx.formParam("name");
@@ -94,6 +97,16 @@ public class UserController {
             return false;
         }
         return true;
+    }
+
+
+    // US-6: liste over kunder (navn + email), seneste ordre øverst
+    public void renderAdmin(Context ctx) throws DatabaseException {
+        if (!requireAdmin(ctx)) return;
+        Map<String, Object> model = new HashMap<>();
+        model.put("user", ctx.sessionAttribute("user"));
+        model.put("customers", userMapper.getAllCustomers());
+        ctx.render("admin.html", model);
     }
 
     public void logout(Context ctx){

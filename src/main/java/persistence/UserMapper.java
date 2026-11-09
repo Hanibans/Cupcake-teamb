@@ -42,6 +42,7 @@ public class UserMapper {
         return null;
     }
 
+
     public User getUserByMail(String mail) throws DatabaseException {
         String sql = "SELECT user_id, is_admin, name, email, password, phone_number, account_balance " +
                 "FROM users WHERE email = ?";
@@ -86,6 +87,28 @@ public class UserMapper {
         return user;
     }
 
+    public List<User> getAllCustomers() throws DatabaseException {
+        List<User> users = new ArrayList<>();
+        String sql = """
+        SELECT u.user_id, u.name, u.email, MAX(o.order_date) AS last_order
+        FROM users u
+        LEFT JOIN orders o ON o.user_id = u.user_id
+        WHERE u.is_admin = false
+        GROUP BY u.user_id, u.name, u.email
+        ORDER BY last_order DESC NULLS LAST
+        """;
+        try (Connection c = connectionPool.getConnection();
+             PreparedStatement ps = c.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+            while (rs.next()) {
+                users.add(new User(rs.getInt("user_id"), rs.getString("name"),
+                        rs.getString("email"), null, null));
+            }
+        } catch (SQLException e) {
+            throw new DatabaseException("Kunne ikke hente kunder", e.getMessage());
+        }
+        return users;
+    }
 
     public User createUser(User user) throws DatabaseException {
         String sql = "INSERT INTO users (name, email, password, phone_number, account_balance) VALUES (?, ?, ?, ?, 100)";
