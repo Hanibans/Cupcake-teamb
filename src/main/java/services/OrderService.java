@@ -23,6 +23,7 @@ public class OrderService {
         this.userMapper = new UserMapper(connectionPool);
     }
 
+    //Order Processing
     public Order processOrder(User user, List<Orderline> orderlines) throws DatabaseException{
         /*
         get session cart/order
