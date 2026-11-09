@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en"  xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<header class="site-header" th:fragment="header">
+    <a href="frontpage.html" class="logo">Copenhagen <span>Cupcakes</span><small>CUPCAKE BAKERY</small></a>
+
+    <nav class="main-nav">
+    <a href="frontpage.html">Byg din egen</a>
+    <a href="cupcakes.html">Cupcakes</a>
+    <a href="admin.html">Admin</a>
+    <a href="#">Kontakt</a>
+    </nav>
+
+    <div class="header-right">
+        <a href="login.html" class="login-link">Log ind</a>
+        <a href="shoppingcart.html" class="cart-button">Kurv</a>
+
+        <details class="mobile-menu">
+            <summary>Menu</summary>
+            <a href="frontpage.html">Byg din egen</a>
+            <a href="cupcakes.html">Cupcakes</a>
+            <a href="admin.html">Admin</a>
+            <a href="#">Kontakt</a>
+            <a href="login.html">Log ind</a>
+        </details>
+    </div>
+</header>
+
+<footer class="site-footer" th:fragment="footer">
+    <div class="logo">Copenhagen <span>Cupcakes</span></div>
+    <p>Frederiksberg · København</p>
+    <p>Man–fre 10–17 · Lør 10–15</p>
+</footer>
+
+</body>
+</html>

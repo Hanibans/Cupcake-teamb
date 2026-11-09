@@ -117,7 +117,7 @@ public class CupcakeMapper {
             }
         } catch (SQLException e) {
             logger.error("Could not get topping", e);
-            throw new DatabaseException("Kunne ikke hente topping", e.getMessage());
+            throw new DatabaseException("Kunne ikke hente cupcake", e.getMessage());
         }
         return null;
     }
