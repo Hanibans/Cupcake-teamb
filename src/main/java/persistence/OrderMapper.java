@@ -245,4 +245,24 @@ public class OrderMapper {
         }
     }
 
+
+    public void updateOrderStatus(int orderId, String status) throws DatabaseException {
+        String sql = "UPDATE orders SET order_status = ? WHERE order_id = ?";
+
+        try (Connection connection = connectionPool.getConnection();
+             PreparedStatement ps = connection.prepareStatement(sql)) {
+
+            ps.setString(1, status);
+            ps.setInt(2, orderId);
+
+            if (ps.executeUpdate() == 0) {
+                throw new DatabaseException("Ordren blev ikke fundet.");
+            }
+
+        } catch (SQLException e) {
+            logger.error("Kunne ikke ændre ordrestatus.", e);
+            throw new DatabaseException(e.getMessage());
+        }
+    }
+
 }
