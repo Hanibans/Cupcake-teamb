@@ -7,6 +7,7 @@ import entities.User;
 import exceptions.DatabaseException;
 import persistence.ConnectionPool;
 import persistence.CupcakeMapper;
+import persistence.UserMapper;
 import services.OrderService;
 import io.javalin.config.JavalinConfig;
 import io.javalin.http.Context;
@@ -18,11 +19,13 @@ public class OrderController {
     private final ConnectionPool connectionPool;
     private final OrderService orderService;
     private final CupcakeMapper cupcakeMapper;
+    private final UserMapper userMapper;
 
     public OrderController(ConnectionPool connectionPool) {
         this.connectionPool = connectionPool;
         this.orderService = new OrderService(connectionPool);
         this.cupcakeMapper = new CupcakeMapper(connectionPool);
+        this.userMapper = new UserMapper(connectionPool);
     }
 
     public void setRoutes(JavalinConfig config) {
@@ -119,6 +122,7 @@ public class OrderController {
 
         ctx.attribute("orders", orders);
         ctx.attribute("selectedOrder", null);
+        ctx.attribute("customers", userMapper.getAllCustomers());
 
         ctx.render("admin.html");
     }
@@ -148,6 +152,7 @@ public class OrderController {
 
         ctx.attribute("orders", orders);
         ctx.attribute("selectedOrder", selectedOrder);
+        ctx.attribute("customers", userMapper.getAllCustomers());
 
         ctx.render("admin.html");
     }
