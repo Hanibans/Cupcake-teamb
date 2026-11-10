@@ -51,7 +51,7 @@
             <span>I alt</span>
             <span th:text="${totalPrice + ',-'}"></span>
         </div>
-
+        <p class="error" th:if="${errorMessage != null}" th:text="${errorMessage}"></p>
         <a method="post" href="/cart/order" class="btn btn-full" style="margin-top: 24px;">Gå til checkout</a>
     </div>
 </main>
