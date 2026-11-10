@@ -7,6 +7,7 @@ import entities.User;
 import exceptions.DatabaseException;
 import persistence.ConnectionPool;
 import persistence.CupcakeMapper;
+import persistence.OrderMapper;
 import persistence.UserMapper;
 import services.OrderService;
 import io.javalin.config.JavalinConfig;
@@ -20,12 +21,14 @@ public class OrderController {
     private final OrderService orderService;
     private final CupcakeMapper cupcakeMapper;
     private final UserMapper userMapper;
+    private final OrderMapper orderMapper;
 
     public OrderController(ConnectionPool connectionPool) {
         this.connectionPool = connectionPool;
         this.orderService = new OrderService(connectionPool);
         this.cupcakeMapper = new CupcakeMapper(connectionPool);
         this.userMapper = new UserMapper(connectionPool);
+        this.orderMapper = new OrderMapper(connectionPool);
     }
 
     public void setRoutes(JavalinConfig config) {
@@ -36,6 +39,7 @@ public class OrderController {
         config.routes.post("/orderline/increase", ctx -> increaseOrderAmount(ctx));
         config.routes.get("/admin", ctx -> showAllOrders(ctx));
         config.routes.get("/admin/orders", ctx -> showOrder(ctx));
+        config.routes.post("/admin/orders/status", ctx -> updateOrderStatus(ctx));
 
         // Ny route til at teste betalingslogik
         config.routes.get("/cart/order", ctx -> checkout(ctx));
@@ -186,4 +190,26 @@ public class OrderController {
 
         ctx.render("admin.html");
     }
+
+    private void updateOrderStatus(Context ctx) throws DatabaseException {
+        User user = ctx.sessionAttribute("user");
+
+        if (user == null || !user.isAdmin()) {
+            ctx.status(400).result("Adgang nægtet");
+            return;
+        }
+
+        int orderId = Integer.parseInt(ctx.formParam("orderId"));
+        String status = ctx.formParam("status");
+
+        // Kun tilladte statusser
+        if (!List.of("Pending", "Completed", "Cancelled").contains(status)) {
+            ctx.status(400).result("Ugyldig status.");
+            return;
+        }
+
+        orderMapper.updateOrderStatus(orderId, status);
+        ctx.redirect("/admin");
+    }
+
 }
