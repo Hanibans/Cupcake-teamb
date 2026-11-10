@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="da" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ordrebekræftelse</title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+
+<header th:replace="~{fragments :: header}"></header>
+
+<main class="page">
+    <div class="modal modal-wide">
+        <p class="eyebrow">Ordrebekræftelse</p>
+        <h1>Tak for din ordre!</h1>
+        <p>Din ordre er modtaget. Her er, hvad du har bestilt:</p>
+
+        <!-- Én række for hver ordrelinje i den afgivne ordre -->
+        <div class="cart-item" th:each="orderline : ${orderlines}">
+            <div class="thumb">CC</div>
+            <div class="info">
+                <h3 th:text="${orderline.cupcakeBase.flavor + '-' + orderline.cupcakeTopping.flavor}"></h3>
+                <p class="product-desc" th:text="|${orderline.quantity} stk. á ${orderline.cupcakeBase.price + orderline.cupcakeTopping.price},–|"></p>
+            </div>
+            <div class="qty">
+                <strong th:text="${orderline.linePrice + ',–'}"></strong>
+            </div>
+        </div>
+
+        <!-- Samlet pris -->
+        <div class="summary-row" style="margin-top: 16px;">
+            <span>Subtotal</span>
+            <strong th:text="${totalPrice + ',-'}"></strong>
+        </div>
+        <div class="summary-row">
+            <span>Levering</span>
+            <strong>Gratis</strong>
+        </div>
+        <div class="total-row">
+            <span>I alt</span>
+            <span th:text="${totalPrice + ',-'}"></span>
+        </div>
+
+        <a href="/frontpage.html" class="btn btn-full" style="margin-top: 24px;">Tilbage til forsiden</a>
+    </div>
+</main>
+
+<footer th:replace="~{fragments :: footer}"></footer>
+
+</body>
+</html>

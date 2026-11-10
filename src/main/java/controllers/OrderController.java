@@ -13,7 +13,9 @@ import io.javalin.config.JavalinConfig;
 import io.javalin.http.Context;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class OrderController {
     private final ConnectionPool connectionPool;
@@ -120,15 +122,29 @@ public class OrderController {
 
         try {
             if (orderService.addOrder(user, orderlines) == 1){
+                // Regn totalen ud imens vi stadig har listen
+                int total = 0;
+                for (Orderline orderline : orderlines){
+                    total += orderline.getLinePrice();
+                }
+                //Læg data i en Map til bekræftelsessiden
+                Map<String, Object> model = new HashMap<>();
+                model.put("orderlines", orderlines);
+                model.put("totalPrice", total);
+
                 // Tøm indkøbskurven
                 ctx.sessionAttribute("orderlines", new ArrayList<Orderline>());
 
                 //ctx.redirect("/....html"); - send brugeren til ordrebekræftelsen eller bare en lille tekst??
-                ctx.result("Tak for bestillingen!");
+                // Udkommenteret: erstattet af en rigtig bekræftelsesside
+                // ctx.result("Tak for bestillingen!");
+
+                //Vis bekræftelsessiden med det kunden har bestilt
+                ctx.render("orderconfirmation.html", model);
             }
             else {
-                ctx.result("Ikke nok penge på saldoen. Tilføj et beløb og prøv igen");
-                ctx.redirect("/frontpage.html");
+                ctx.sessionAttribute("errorMessage", "Ikke nok penge på saldoen. Tilføj et beløb og prøv igen");
+                ctx.redirect("/shoppingcart.html");
             }
 
 
