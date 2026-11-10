@@ -36,7 +36,7 @@ public class UserController {
             config.routes.get("/cupcakes.html", ctx -> ctx.render("cupcakes.html"));
 
             config.routes.get("/payment.html", ctx -> ctx.render("payment.html"));
-            config.routes.get("/profile.html", ctx -> ctx.render("profile.html"));
+            config.routes.get("/profile.html", ctx -> renderProfile(ctx));
             config.routes.get("/admin.html", ctx -> {
                 if (!requireAdmin(ctx)) return;
                 ctx.redirect("/admin"); });
@@ -146,6 +146,20 @@ public class UserController {
             ctx.status(400);
             ctx.result("Kunne ikke finde cupcakes. "+ e.getMessage());
         }
+    }
+
+    public void renderProfile(Context ctx) {
+        User user = ctx.sessionAttribute("user");
+
+        if (user == null) {
+            ctx.redirect("/login.html");
+            return;
+        }
+
+        ctx.attribute("user", user);
+        ctx.attribute("orders", user.getOrders());
+
+        ctx.render("profile.html");
     }
 
 }

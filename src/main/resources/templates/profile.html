@@ -12,23 +12,46 @@
 
 <main class="container">
     <p class="eyebrow">Min profil</p>
-    <h1>Hej</h1>
-    <p>Saldo: <strong>100 kr.</strong></p>
+    <h1>Hej <span th:text="${user.name}">Navn</span>!</h1>
 
-    <h2>Gemte ordrer</h2>
+    <p>
+        Saldo:
+        <strong th:text="${user.accountBalance + ' kr.'}">100 kr.</strong>
+    </p>
+
+    <h2>Mine ordrer</h2>
+
     <div class="table-wrap">
         <table>
             <tr>
                 <th>Ordre</th>
                 <th>Dato</th>
                 <th>Pris</th>
-                <th></th>
+                <th>Betaling</th>
             </tr>
-            <tr>
-                <td>#1</td>
-                <td>05-11-2026</td>
-                <td>30 kr.</td>
-                <td><button type="button" class="btn btn-blue">Betal</button></td>
+
+            <tr th:each="order : ${orders}">
+                <td th:text="${'#' + order.orderId}">#1</td>
+                <td th:text="${#temporals.format(order.date, 'dd-MM-yyyy HH:mm')}">05-11-2026</td>
+                <td th:text="${order.totalPrice + ' kr.'}">30 kr.</td>
+                <td>
+                    <span th:if="${order.payment != null and order.payment.paid}">
+                        Betalt
+                    </span>
+                    <form th:if="${order.payment == null or !order.payment.paid}"
+                          action="/payment"
+                          method="post">
+                        <input type="hidden" name="orderId"
+                               th:value="${order.orderId}">
+                        <button type="submit" class="btn btn-blue">
+                            Betal
+                        </button>
+                    </form>
+                </td>
+            </tr>
+
+            <tr th:if="${#lists.isEmpty(orders)}">
+                <td colspan="4">Du har ingen ordrer endnu.</td>
             </tr>
         </table>
     </div>
