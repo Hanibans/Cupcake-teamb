@@ -32,6 +32,8 @@ public class OrderController {
         config.routes.post("/orderline/add", ctx -> addOrderline(ctx));
         config.routes.post("/orderline/remove", ctx -> removeOrderline(ctx));
         config.routes.post("/order/checkout", ctx -> checkout(ctx));
+        config.routes.post("/orderline/reduce", ctx -> reduceOrderAmount(ctx));
+        config.routes.post("/orderline/increase", ctx -> increaseOrderAmount(ctx));
         config.routes.get("/admin", ctx -> showAllOrders(ctx));
         config.routes.get("/admin/orders", ctx -> showOrder(ctx));
 
@@ -57,7 +59,7 @@ public class OrderController {
                 cupcakeMapper.getToppingById(toppingId),
                 quantity));
 
-        ctx.redirect("/cart/order");
+        ctx.redirect("/frontpage.html");
     }
 
     private void removeOrderline (Context ctx){
@@ -69,6 +71,34 @@ public class OrderController {
         ctx.sessionAttribute("orderlines", orderlines);
         ctx.redirect("/shoppingcart.html");
     }
+
+
+    private void reduceOrderAmount (Context ctx){
+        int index = Integer.parseInt(ctx.formParam("index"));
+        List<Orderline> orderlines = ctx.sessionAttribute("orderlines");
+        if (orderlines != null && index >= 0 && index < orderlines.size()) {
+            Orderline orderline = orderlines.get(index);
+            int orderlineQuantity = orderline.getQuantity();
+            orderline.setQuantity(orderlineQuantity -1);
+            if(orderline.getQuantity() == 0){
+                orderlines.remove(index);}
+        }
+        ctx.sessionAttribute("orderlines", orderlines);
+        ctx.redirect("/shoppingcart.html");
+    }
+
+    private void increaseOrderAmount (Context ctx){
+        int index = Integer.parseInt(ctx.formParam("index"));
+        List<Orderline> orderlines = ctx.sessionAttribute("orderlines");
+        if (orderlines != null && index >= 0 && index < orderlines.size()) {
+            Orderline orderline = orderlines.get(index);
+            int orderlineQuantity = orderline.getQuantity();
+            orderline.setQuantity(orderlineQuantity +1);
+        }
+        ctx.sessionAttribute("orderlines", orderlines);
+        ctx.redirect("/shoppingcart.html");
+    }
+
 
     private void checkout (Context ctx) throws DatabaseException {
         // Tjek om bruger er logget ind

@@ -34,7 +34,7 @@ public class UserController {
             config.routes.get("/login.html", ctx -> ctx.render("login.html"));
             config.routes.get("/register.html", ctx -> ctx.render("register.html"));
             config.routes.get("/cupcakes.html", ctx -> ctx.render("cupcakes.html"));
-            config.routes.get("/shoppingcart.html", ctx -> ctx.render("shoppingcart.html"));
+
             config.routes.get("/payment.html", ctx -> ctx.render("payment.html"));
             config.routes.get("/profile.html", ctx -> ctx.render("profile.html"));
             config.routes.get("/admin.html", ctx -> {
@@ -45,11 +45,10 @@ public class UserController {
         config.routes.post("/createuser", ctx -> createUser(ctx));
         config.routes.post("/login", ctx -> login(ctx));
 
-
-        // redirects
-        config.routes.get("/createuser", ctx -> ctx.redirect("/register.html"));
-        config.routes.get("/login", ctx -> ctx.redirect("/login.html"));
-        config.routes.get("/logout", ctx -> logout(ctx));
+            // redirects
+            config.routes.get("/createuser", ctx -> ctx.redirect("/register.html"));
+            config.routes.get("/login", ctx -> ctx.redirect("/login.html"));
+            config.routes.get("/logout", ctx -> logout(ctx));
 
         config.routes.get("/login/checkout", ctx -> ctx.render("logincheckout"));
         config.routes.post("/login/checkout", ctx -> loginCheckout(ctx));
@@ -97,20 +96,6 @@ public class UserController {
             return false;
         }
         return true;
-    }
-
-
-    // US-6: liste over kunder (navn + email), seneste ordre øverst
-    public void renderAdmin(Context ctx) throws DatabaseException {
-        if (!requireAdmin(ctx)) return;
-        try {
-            Map<String, Object> model = new HashMap<>();
-            model.put("user", ctx.sessionAttribute("user"));
-            model.put("customers", userMapper.getAllCustomers());
-            ctx.render("admin.html", model);
-        } catch (DatabaseException e) {
-            throw new RuntimeException(e);
-        }
     }
 
     public void logout(Context ctx){

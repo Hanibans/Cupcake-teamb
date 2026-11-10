@@ -15,50 +15,33 @@
         <p class="eyebrow">Din bestilling</p>
         <h1>Din kurv</h1>
 
+        <h2 th:if="${cart.isEmpty()}">Åh nej, din kurv er tom!</h2>
+
         <!-- Én række for hver cupcake i kurven. Det er her, Thymeleaf senere skal lave en løkke. -->
-        <div class="cart-item">
+        <div class="cart-item" th:each="cupcake, status : ${cart}">
             <div class="thumb">CC</div>
             <div class="info">
-                <h3>Citronkys</h3>
-                <p class="product-desc">36,– pr. stk.</p>
+                <h3 th:text="${cupcake.cupcakeBase.flavor + '-' + cupcake.cupcakeTopping.flavor}"></h3>
+                <p class="product-desc" th:text="${cupcake.cupcakeBase.price + cupcake.cupcakeTopping.price + ',– pr. stk.'}"></p>
             </div>
             <div class="qty">
-                <button type="button" class="qty-btn">−</button>
-                <span>2</span>
-                <button type="button" class="qty-btn">+</button>
+                <form action="/orderline/reduce" method="post">
+                    <input type="hidden" name="index" th:value="${status.index}">
+                    <button type="submit" class="qty-btn">−</button>
+                </form>
+                <span th:text="${cupcake.quantity}"></span>
+                <form action="/orderline/increase" method="post">
+                    <input type="hidden" name="index" th:value="${status.index}">
+                    <button type="submit" class="qty-btn">+</button>
+                </form>
             </div>
         </div>
 
-        <div class="cart-item">
-            <div class="thumb">CC</div>
-            <div class="info">
-                <h3>Choko crunch</h3>
-                <p class="product-desc">42,– pr. stk.</p>
-            </div>
-            <div class="qty">
-                <button type="button" class="qty-btn">−</button>
-                <span>1</span>
-                <button type="button" class="qty-btn">+</button>
-            </div>
-        </div>
-
-        <div class="cart-item">
-            <div class="thumb">CC</div>
-            <div class="info">
-                <h3>Vaniljesky</h3>
-                <p class="product-desc">34,– pr. stk.</p>
-            </div>
-            <div class="qty">
-                <button type="button" class="qty-btn">−</button>
-                <span>1</span>
-                <button type="button" class="qty-btn">+</button>
-            </div>
-        </div>
 
         <!-- Samlet pris -->
         <div class="summary-row" style="margin-top: 16px;">
             <span>Subtotal</span>
-            <strong>148,–</strong>
+            <strong th:text="${totalPrice + ',-'}"></strong>
         </div>
         <div class="summary-row">
             <span>Levering</span>
@@ -66,10 +49,10 @@
         </div>
         <div class="total-row">
             <span>I alt</span>
-            <span>148,–</span>
+            <span th:text="${totalPrice + ',-'}"></span>
         </div>
 
-        <a href="payment.html" class="btn btn-full" style="margin-top: 24px;">Gå til checkout</a>
+        <a method="post" href="/cart/order" class="btn btn-full" style="margin-top: 24px;">Gå til checkout</a>
     </div>
 </main>
 
