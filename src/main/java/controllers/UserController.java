@@ -52,6 +52,8 @@ public class UserController {
 
         config.routes.get("/login/checkout", ctx -> ctx.render("logincheckout"));
         config.routes.post("/login/checkout", ctx -> loginCheckout(ctx));
+        config.routes.get("/createuser/checkout", ctx -> ctx.render("createusercheckout"));
+        config.routes.post("/createuser/checkout", ctx -> createuserCheckout(ctx));
 
     }
 
@@ -109,10 +111,26 @@ public class UserController {
         User user = userService.login(email, password);
         if (user != null) {
             ctx.sessionAttribute("user", user);
-            ctx.redirect("/cart/order");
+            ctx.redirect("/shoppingcart.html");
         } else {
             ctx.status(400);
             ctx.result("Forkert email eller adgangskode");
+        }
+    }
+
+    public void createuserCheckout(Context ctx) {
+        String name = ctx.formParam("name");
+        String email = ctx.formParam("email");
+        String phoneNumber = ctx.formParam("phonenumber");
+        String password = ctx.formParam("password");
+
+        try {
+            User user = userService.createUser(name, email, phoneNumber, password);
+            ctx.sessionAttribute("user", user);
+            ctx.redirect("/shoppingcart.html");
+        } catch (IllegalUserDataException e) {
+            ctx.status(400);
+            ctx.result(e.getMessage());
         }
     }
 

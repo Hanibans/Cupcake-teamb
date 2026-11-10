@@ -148,8 +148,6 @@ public class OrderController {
 
         List<Order> orders = orderService.getAllOrders();
 
-        System.out.println("Antal ordrer hentet: " + orders.size());
-
         ctx.attribute("orders", orders);
         ctx.attribute("selectedOrder", null);
         ctx.attribute("customers", userMapper.getAllCustomers());
