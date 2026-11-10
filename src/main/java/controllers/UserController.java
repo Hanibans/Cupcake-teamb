@@ -11,17 +11,20 @@ import persistence.ConnectionPool;
 import persistence.UserMapper;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class UserController {
     private final ConnectionPool connectionPool;
     private final UserService userService;
     private final CupcakeMapper cupcakeMapper;
+    private final UserMapper userMapper;
 
     public UserController(ConnectionPool connectionPool) {
         this.connectionPool = connectionPool;
         this.userService = new UserService(connectionPool);
         this.cupcakeMapper = new CupcakeMapper(connectionPool);
+        this.userMapper = new UserMapper(connectionPool);
     }
 
     public void setRoutes(JavalinConfig config) {
@@ -38,20 +41,20 @@ public class UserController {
                 if (!requireAdmin(ctx)) return;
                 ctx.redirect("/admin"); });
 
-            // form handling
-            config.routes.post("/createuser", ctx -> createUser(ctx));
-            config.routes.post("/login", ctx -> login(ctx));
+        // form handling
+        config.routes.post("/createuser", ctx -> createUser(ctx));
+        config.routes.post("/login", ctx -> login(ctx));
 
 
-            // redirects
-            config.routes.get("/createuser", ctx -> ctx.redirect("/register.html"));
-            config.routes.get("/login", ctx -> ctx.redirect("/login.html"));
-            config.routes.get("/logout", ctx -> logout(ctx));
+        // redirects
+        config.routes.get("/createuser", ctx -> ctx.redirect("/register.html"));
+        config.routes.get("/login", ctx -> ctx.redirect("/login.html"));
+        config.routes.get("/logout", ctx -> logout(ctx));
 
-            config.routes.get("/login/checkout", ctx -> ctx.render("logincheckout"));
-            config.routes.post("/login/checkout", ctx -> loginCheckout(ctx));
+        config.routes.get("/login/checkout", ctx -> ctx.render("logincheckout"));
+        config.routes.post("/login/checkout", ctx -> loginCheckout(ctx));
 
-        }
+    }
 
     public void createUser(Context ctx) {
         String name = ctx.formParam("name");
@@ -94,6 +97,20 @@ public class UserController {
             return false;
         }
         return true;
+    }
+
+
+    // US-6: liste over kunder (navn + email), seneste ordre øverst
+    public void renderAdmin(Context ctx) throws DatabaseException {
+        if (!requireAdmin(ctx)) return;
+        try {
+            Map<String, Object> model = new HashMap<>();
+            model.put("user", ctx.sessionAttribute("user"));
+            model.put("customers", userMapper.getAllCustomers());
+            ctx.render("admin.html", model);
+        } catch (DatabaseException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public void logout(Context ctx){
