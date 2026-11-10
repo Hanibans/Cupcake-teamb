@@ -642,3 +642,38 @@ table .status-form .status-btn {
     background-color: var(--green);
     border: none;
 }
+
+/* ---------- Admin: bekræftelse efter gem ---------- */
+.admin-message {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 16px 0 24px;
+    padding: 14px 20px;
+    font-weight: 700;
+    color: var(--plum);
+    background-color: var(--bg-mint);
+    border: 1px solid var(--green);
+    border-radius: 16px;
+}
+
+.admin-message::before {
+    content: "✓";
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    flex-shrink: 0;
+    font-size: 0.85rem;
+    background-color: var(--green);
+    border-radius: 50%;
+}
+
+.admin-message {
+    animation: fadeOut 0.5s ease 4s forwards;
+}
+
+@keyframes fadeOut {
+    to { opacity: 0; visibility: hidden; }
+}

@@ -174,6 +174,10 @@ public class OrderController {
         ctx.attribute("selectedOrder", null);
         ctx.attribute("customers", userMapper.getAllCustomers());
 
+        // US-6 feature: Henter "Ordre gemt"-beskeden fra sessionen
+        // og fjerner den, så den kun vises én gang efter redirect
+        ctx.attribute("adminMessage", ctx.consumeSessionAttribute("adminMessage"));
+
         ctx.render("admin.html");
     }
 
@@ -204,6 +208,9 @@ public class OrderController {
         ctx.attribute("selectedOrder", selectedOrder);
         ctx.attribute("customers", userMapper.getAllCustomers());
 
+        // US-6 feature: "Ordre gemt"-besked
+        ctx.attribute("adminMessage", ctx.consumeSessionAttribute("adminMessage"));
+
         ctx.render("admin.html");
     }
 
@@ -225,6 +232,7 @@ public class OrderController {
         }
 
         orderMapper.updateOrderStatus(orderId, status);
+        ctx.sessionAttribute("adminMessage", "Ordre #"+ orderId + "gemt");
         ctx.redirect("/admin");
     }
 
