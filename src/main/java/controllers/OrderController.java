@@ -232,7 +232,7 @@ public class OrderController {
         }
 
         orderMapper.updateOrderStatus(orderId, status);
-        ctx.sessionAttribute("adminMessage", "Ordre #"+ orderId + "gemt");
+        ctx.sessionAttribute("adminMessage", "Ordre #"+ orderId + " gemt");
         ctx.redirect("/admin");
     }
 
