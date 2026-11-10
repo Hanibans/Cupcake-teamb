@@ -18,14 +18,17 @@
         <h2 th:if="${cart.isEmpty()}">Åh nej, din kurv er tom!</h2>
 
         <!-- Én række for hver cupcake i kurven. Det er her, Thymeleaf senere skal lave en løkke. -->
-        <div class="cart-item" th:each="cupcake : ${cart}">
+        <div class="cart-item" th:each="cupcake, status : ${cart}">
             <div class="thumb">CC</div>
             <div class="info">
                 <h3 th:text="${cupcake.cupcakeBase.flavor + '-' + cupcake.cupcakeTopping.flavor}"></h3>
                 <p class="product-desc" th:text="${cupcake.cupcakeBase.price + cupcake.cupcakeTopping.price + ',– pr. stk.'}"></p>
             </div>
             <div class="qty">
-                <button type="button" class="qty-btn">−</button>
+                <form action="/orderline/reduce" method="post">
+                    <input type="hidden" name="index" th:value="${status.index}">
+                    <button type="submit" class="qty-btn">−</button>
+                </form>
                 <span th:text="${cupcake.quantity}"></span>
                 <button type="button" class="qty-btn">+</button>
             </div>
