@@ -127,8 +127,8 @@ public class OrderController {
                 ctx.result("Tak for bestillingen!");
             }
             else {
-                ctx.result("Ikke nok penge på saldoen. Tilføj et beløb og prøv igen");
-                ctx.redirect("/frontpage.html");
+                ctx.sessionAttribute("errorMessage", "Ikke nok penge på saldoen. Tilføj et beløb og prøv igen");
+                ctx.redirect("/shoppingcart.html");
             }
 
 

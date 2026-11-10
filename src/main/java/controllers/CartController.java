@@ -57,6 +57,9 @@ public class CartController {
         }
         cart.put("totalPrice", total);
 
+        String errorMessage = ctx.sessionAttribute("errorMessage");
+        ctx.sessionAttribute("errorMessage", null);
+        cart.put("errorMessage", errorMessage);
         ctx.render("shoppingcart.html", cart);
 
     }
