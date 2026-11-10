@@ -30,7 +30,10 @@
                     <button type="submit" class="qty-btn">−</button>
                 </form>
                 <span th:text="${cupcake.quantity}"></span>
-                <button type="button" class="qty-btn">+</button>
+                <form action="/orderline/increase" method="post">
+                    <input type="hidden" name="index" th:value="${status.index}">
+                    <button type="submit" class="qty-btn">+</button>
+                </form>
             </div>
         </div>
 
