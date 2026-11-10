@@ -81,8 +81,8 @@
                 <th>E-mail</th>
             </tr>
             <tr th:each="customer : ${customers}">
-                <td th:text="${customer.name}">Kari Hansen</td>
-                <td th:text="${customer.email}">kunde@mail.dk</td>
+                <td th:text="${customer.name}"></td>
+                <td th:text="${customer.email}"></td>
             </tr>
             <tr th:if="${#lists.isEmpty(customers)}">
                 <td colspan="2">Ingen kunder endnu.</td>
