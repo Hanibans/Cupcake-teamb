@@ -26,7 +26,7 @@ public class OrderMapper {
     public int addOrder(User user, Order order) throws DatabaseException {
 
         String sql = """
-            INSERT INTO public."orders"
+            INSERT INTO orders
             (user_id, order_date, total_price, order_status)
             VALUES (?, ?, ?, ?)
             """;
@@ -59,7 +59,7 @@ public class OrderMapper {
             throws DatabaseException {
 
         String sql = """
-            INSERT INTO public."orderline"
+            INSERT INTO orderline
             (order_id, base_id, topping_id, quantity)
             VALUES (?, ?, ?, ?)
             """;
