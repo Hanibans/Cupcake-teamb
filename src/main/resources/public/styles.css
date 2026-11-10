@@ -615,3 +615,30 @@ th, td {
     text-decoration: none;
     transition: color 0.2s ease;
 }
+
+
+/* ---------- Admin: ændr ordrestatus ---------- */
+table .status-form select,
+table .status-form .status-btn {
+    font-family: 'DM Sans', Arial, sans-serif;
+    font-size: 0.9rem;
+    border-radius: 8px;
+}
+
+table .status-form select {
+    padding: 8px 12px;
+    color: var(--plum);
+    background-color: var(--white);
+    border: 1px solid #ddd;
+    cursor: pointer;
+}
+
+table .status-form .status-btn {
+    -webkit-appearance: none;
+    appearance: none;
+    padding: 8px 16px;
+    font-weight: 700;
+    color: var(--plum);
+    background-color: var(--green);
+    border: none;
+}
