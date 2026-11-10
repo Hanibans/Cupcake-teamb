@@ -36,7 +36,9 @@
                 <select id="baseId" name="baseId">
                     <option th:each="base : ${bases}"
                             th:value="${base.cupcakeId}"
-                            th:text="${base.flavor}">Bund</option>
+                            th:data-price="${base.price}"
+                            th:text="${base.flavor + ' – ' + base.price + ' kr.'}">
+                    </option>
                 </select>
             </div>
 
@@ -45,7 +47,9 @@
                 <select id="toppingId" name="toppingId">
                     <option th:each="topping : ${toppings}"
                             th:value="${topping.cupcakeId}"
-                            th:text="${topping.flavor}">Topping</option>
+                            th:data-price="${topping.price}"
+                            th:text="${topping.flavor + ' – ' + topping.price + ' kr.'}">
+                    </option>
                 </select>
             </div>
 
@@ -53,9 +57,17 @@
                 <label for="quantity">03 Antal</label>
                 <select id="quantity" name="quantity">
                     <option value="1">1 stk.</option>
+                    <option value="2">2 stk.</option>
+                    <option value="3">3 stk.</option>
+                    <option value="4">4 stk.</option>
+                    <option value="5">5 stk.</option>
                     <option value="6">6 stk.</option>
                     <option value="12">12 stk.</option>
                 </select>
+            </div>
+
+            <div class="total-price">
+                <p>Samlet pris: <strong id="totalPrice">0 kr.</strong></p>
             </div>
 
             <button type="submit" class="btn btn-blue">Tilføj til kurv</button>
@@ -65,5 +77,34 @@
 
 <footer th:replace="~{fragments :: footer}"></footer>
 
+<script>
+    const baseSelect = document.getElementById("baseId");
+    const toppingSelect = document.getElementById("toppingId");
+    const quantitySelect = document.getElementById("quantity");
+    const totalPrice = document.getElementById("totalPrice");
+
+    function calculatePrice() {
+        const basePrice = Number(
+            baseSelect.selectedOptions[0]?.dataset.price || 0
+        );
+
+        const toppingPrice = Number(
+            toppingSelect.selectedOptions[0]?.dataset.price || 0
+        );
+
+        const quantity = Number(quantitySelect.value);
+
+        const total = (basePrice + toppingPrice) * quantity;
+
+        totalPrice.textContent =
+            total.toLocaleString("da-DK") + " kr.";
+    }
+
+    baseSelect.addEventListener("change", calculatePrice);
+    toppingSelect.addEventListener("change", calculatePrice);
+    quantitySelect.addEventListener("change", calculatePrice);
+
+    calculatePrice();
+</script>
 </body>
 </html>
