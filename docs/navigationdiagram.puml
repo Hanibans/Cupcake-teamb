@@ -1,4 +1,6 @@
 @startuml
+!pragma layout smetana
+
 top to bottom direction
 hide empty description
 
