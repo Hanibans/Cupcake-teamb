@@ -1,0 +1,24 @@
+@startuml 02_login_oprettelse
+!include _stil.puml
+title 02 · Login og oprettelse\n<size:13>Detaljediagram · de faktiske sider fra hjemmesiden</size>
+
+state "Log ind  ·  /login.html" as Login
+Login : $skaerm("10_Login.png", "0.227")
+
+state "Opret bruger  ·  /register.html" as Opret
+Opret : $skaerm("09_Opret_bruger.png", "0.227")
+
+state "Tilbage til indkøbskurv" as Kurv #EDF7F3
+Kurv : $skaerm("04_Indkoebskurv_logget_ind.png", "0.67")
+
+[*] --> Login : Gå til checkout\n[gæst]
+Login -[$PINK,bold]-> Opret : Opret bruger\n[ingen konto]
+Login -[$GROEN,bold]-> Kurv : [login OK]
+Opret -[$GROEN,bold]-> Kurv : Konto oprettet\n[logges ind automatisk]
+Kurv --> [*] : Fortsæt checkout
+
+note bottom of Kurv
+  Efter login eller oprettelse sendes
+  brugeren tilbage til kurven og kan fortsætte.
+end note
+@enduml

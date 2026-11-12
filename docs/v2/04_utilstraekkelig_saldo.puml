@@ -1,0 +1,23 @@
+@startuml 04_utilstraekkelig_saldo
+!include _stil.puml
+title 04 · Utilstrækkelig saldo\n<size:13>Scenarie 2 · logget ind, men saldoen rækker ikke til ordren</size>
+
+state "1 · Byg cupcakes" as Forside #F7E1EC
+Forside : $skaerm("01_Forside_gaest_byg_cupcake.png", "0.67")
+
+state "2 · Indkøbskurv · samlet beløb > saldo" as Kurv
+Kurv : $skaerm("08_Indkoebskurv_utilstraekkelig_saldo.png", "0.67")
+
+state saldo <<choice>>
+
+[*] --> Forside : [logget ind]
+Forside --> Forside : Tilføj flere\ncupcakes
+Forside -[$GROEN]-> Kurv : Gå til kurv
+Kurv --> saldo : Gå til checkout
+saldo -[$ROED,bold]-> Kurv : [saldo utilstrækkelig]\nkøb afvises, fejlbesked vises
+
+note right of Kurv
+  Fejlbeskeden vises på kurven –
+  der åbnes ikke en ny side.
+end note
+@enduml

@@ -1,0 +1,35 @@
+' Fælles stil for alle Copenhagen Cupcakes-diagrammer.
+' Inkluderes med:  !include _stil.puml
+skinparam defaultFontName "DejaVu Sans"
+skinparam shadowing false
+skinparam roundCorner 16
+skinparam ArrowColor #6B5B73
+skinparam ArrowFontSize 11
+skinparam ArrowFontColor #3B2A40
+skinparam TitleFontSize 20
+skinparam TitleFontColor #3B2A40
+skinparam state {
+  BackgroundColor #FFF8F5
+  BorderColor #7A6577
+  FontColor #2E2433
+  StartColor #3B2A40
+  EndColor #3B2A40
+}
+skinparam note {
+  BackgroundColor #FFF9E8
+  BorderColor #D4B97A
+}
+hide empty description
+
+' Farver til pilene: grøn = lykkelig sti, pink = admin, rød = fejl
+!$GROEN = "#1E8C6E"
+!$PINK  = "#C43B7E"
+!$ROED  = "#C0505A"
+
+' Indsætter et screenshot fra mappen screenshots/.
+' Skala vælges, så alle billeder ender ca. 420 px brede:
+'   små screenshots (625 px)    -> "0.67"
+'   store screenshots (1850 px) -> "0.227"
+!function $skaerm($fil, $skala)
+!return "<img:screenshots/" + $fil + "{scale=" + $skala + "}>"
+!endfunction

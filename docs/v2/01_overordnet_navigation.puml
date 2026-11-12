@@ -1,0 +1,58 @@
+@startuml 01_overordnet_navigation
+!include _stil.puml
+title Copenhagen Cupcakes · Overordnet navigationsdiagram
+
+state "Forside\nByg din egen cupcake" as Forside #F7E1EC
+state "Cupcakes" as Cupcakes
+state "Kontakt" as Kontakt
+state "Indkøbskurv\ngæst eller logget ind" as Kurv
+state "Log ind" as Login
+state "Opret bruger" as Opret
+state checkout <<choice>>
+
+state "Logget ind · kun med gyldig session" as LoggetInd #F2F8F6 {
+  state saldo <<choice>>
+  state "Ordrebekræftelse" as Bekraeft
+  state "Profil\nSaldo og mine ordrer" as Profil
+
+  state "Administrator · [rolle = admin]" as AdminOmraade #F7F2FA {
+    state "Administration\nOrdrer og kunder" as Admin
+    state "Ordredetaljer" as Ordredetaljer
+    Admin --> Admin : Gem status
+    Admin --> Ordredetaljer : Se ordre
+    Ordredetaljer --> Admin : Tilbage
+  }
+
+  saldo -[$GROEN,bold]-> Bekraeft : [saldo OK]
+  Bekraeft --> Profil : Mine ordrer
+}
+
+[*] --> Forside
+Forside --> Cupcakes : Cupcakes
+Forside --> Kontakt : Kontakt
+Forside --> Kurv : Tilføj til kurv / Kurv
+Kurv --> Forside : Fortsæt med at handle
+Forside --> Login : Log ind
+
+Kurv --> checkout : Gå til checkout
+checkout --> Login : [ikke logget ind]
+checkout --> saldo : [logget ind]
+saldo -[$ROED]-> Kurv : [for lav saldo]\nsamme side, fejlbesked
+
+Login --> Opret : Opret bruger
+Opret -[$GROEN,bold]-> Kurv : Konto oprettet\nlogges ind automatisk
+Login -[$GROEN,bold]-> Kurv : [login OK, fra checkout]\ntilbage til kurven
+Login --> Profil : [login OK]
+
+Bekraeft --> Forside : Tilbage til forsiden
+Forside --> Profil : e-mail i topmenu\n[logget ind]
+Forside -[$PINK,bold]-> Admin : Admin i topmenu\n[rolle = admin]
+LoggetInd --> Forside : Log ud
+
+note as Topmenu
+  <b>Fælles topmenu</b> på alle sider:
+  Logo · Byg din egen · Cupcakes · Kontakt · Kurv
+  Log ind <i>eller</i> e-mail + Log ud afhænger af login.
+  Admin vises kun for [rolle = admin].
+end note
+@enduml

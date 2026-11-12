@@ -1,0 +1,29 @@
+@startuml 05_administrator
+!include _stil.puml
+title 05 · Administrator\n<size:13>Detaljediagram · kræver login med administratorrolle</size>
+
+state "1 · Forside [admin logget ind]" as Forside #F7E1EC
+Forside : Topmenuen viser »Admin«
+
+state "Administrator · [rolle = admin]" as AdminOmraade #F7F2FA {
+  state "2 · Administration  ·  /admin" as Admin
+  Admin : $skaerm("12_Administration.png", "0.227")
+  state "Ordredetaljer" as Ordredetaljer
+  Admin --> Admin : Gem status
+  Admin --> Ordredetaljer : Se ordre
+  Ordredetaljer --> Admin : Tilbage
+}
+
+state "3 · Min profil  ·  /profile.html" as Profil
+Profil : $skaerm("13_Profil_administrator.png", "0.227")
+
+[*] --> Forside
+Forside -[$PINK,bold]-> Admin : Klik Admin
+Admin -[$GROEN,bold]-> Profil : Klik e-mail
+
+note bottom of Forside
+  Admin-linket i topmenuen vises kun
+  for administratorer. Almindelige
+  kunder har ikke adgang.
+end note
+@enduml

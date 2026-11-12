@@ -1,0 +1,29 @@
+@startuml 03_bestilling_gennemfoert
+!include _stil.puml
+title 03 · Bestilling gennemført\n<size:13>Scenarie 1 · ikke logget ind ved checkout, tilstrækkelig saldo efter login</size>
+
+state "1 · Vælg cupcake" as Forside #F7E1EC
+Forside : $skaerm("01_Forside_gaest_byg_cupcake.png", "0.67")
+
+state "2 · Indkøbskurv [gæst]" as KurvGaest
+KurvGaest : $skaerm("02_Indkoebskurv_gaest.png", "0.67")
+
+state "3 · Log ind" as Login
+Login : $skaerm("10_Login.png", "0.227")
+
+state "4 · Indkøbskurv [logget ind]" as KurvLI
+KurvLI : $skaerm("04_Indkoebskurv_logget_ind.png", "0.67")
+
+state saldo <<choice>>
+
+state "5 · Ordrebekræftelse" as Bekraeft #DFF1E9
+Bekraeft : $skaerm("05_Ordrebekraeftelse.png", "0.67")
+
+[*] --> Forside
+Forside -[$GROEN]-> KurvGaest : Tilføj til kurv
+KurvGaest -[$PINK,bold]-> Login : Gå til checkout\n[ikke logget ind]
+Login -[$GROEN]-> KurvLI : [login OK]
+KurvLI --> saldo : Gå til checkout
+saldo -[$GROEN,bold]-> Bekraeft : [saldo OK]
+Bekraeft --> [*]
+@enduml
